@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Biblioteca - Bibliotecário</title>
+    <link rel="stylesheet" href="bibliotecariocss.css"> 
+</head>
+<body>
+    <header>
+        <h1>Sistema de Biblioteca - Bibliotecário</h1>
+      <img src="imagemlogo.png" alt="Logo Biblioteca" width="100">
+    </header>
+    <main>
+        <section>
+            <h2>Cadastrar Livro</h2>
+            <form>
+                <label for="livro">Nome do livro:</label>
+                <input type="text" id="livro" required>
+
+                <label for="autor">Nome do autor:</label>
+                <input type="text" id="autor" required>
+
+                <label for="qtd">Quantidade possuída:</label>
+                <input type="number" id="qtd" min="1" required>
+
+                <label for="genero">Gênero:</label>
+                <input type="text" id="genero">
+
+                <label for="foto">Capa do livro:</label>
+                <input type="file" id="foto" accept="image/*">
+
+                <button type="submit">Confirmar Cadastro</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>
