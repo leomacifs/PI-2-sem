@@ -5,4 +5,8 @@ Programa de Biblioteca Universitária
 
 Integrantes do grupo:
 
-Leonardo Maciel - RA 25013925 Brenda Maia - RA 25010054 Nicollas Fabbio - RA 25007563 Gustavo Moretti - RA 25000607 Viviane Costa - RA 25897398
+Leonardo Maciel - 25013925 
+Brenda Maia - 25010054 
+Nicollas Fabbio - 25007563 
+Gustavo Moretti - 25000607 
+Viviane Costa - 25897398
