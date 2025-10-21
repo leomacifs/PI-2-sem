@@ -1,28 +1,15 @@
-body {
-  font-family: Arial, sans-serif;
-  background: #f4f7fb;
+
+* {
   margin: 0;
   padding: 0;
-  color: #000000;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-header {
-  background: #00509e;
-  color: white;
-  text-align: center;
-  padding: 1rem;
+body {
+  background-color: #f3f6fa;
 }
 
-header {
-    background-color: #0277bd;
-    padding: 20px;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border-radius: 8px;
-}
 
 header img {
     width: 120px;
@@ -31,42 +18,71 @@ header img {
     background-color: rgba(255, 255, 255, 0.7);
     margin-top: 10px;
 }
-main {
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1rem;
-}
 
-section {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-
-h2 {
-  color: #00509e;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-input, button {
-  padding: 0.6rem;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-
-button {
-  background: #00509e;
+.topo {
+  background-color: #0071c5;
   color: white;
-  font-weight: bold;
+  text-align: center;
+  padding: 20px;
+}
+
+.topo h1 {
+  margin-bottom: 10px;
+  font-size: 22px;
+}
+
+.topo .logo {
+  width: 80px;
+  display: block;
+  margin: 0 auto;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
+
+.card {
+  background: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  text-align: center;
+  width: 320px;
+}
+
+.card h2 {
+  color: #003366;
+  margin-bottom: 10px;
+}
+
+.card p {
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #333;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-primary {
+  width: 100%;
+  background-color: #0071c5;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 16px;
   cursor: pointer;
 }
 
-button:hover {
-  background: #0066cc;
+.btn-primary:hover {
+  background-color: #005999;
 }

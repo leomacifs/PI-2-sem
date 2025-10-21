@@ -1,4 +1,4 @@
-
+/* Reset */
 * {
   margin: 0;
   padding: 0;
@@ -10,9 +10,9 @@ body {
   background-color: #f4f7fb;
 }
 
-
+/* Cabeçalho */
 header {
-  background-color: #0072c6; 
+  background-color: #0072c6;
   color: white;
   text-align: center;
   padding: 20px;
@@ -26,40 +26,66 @@ header img {
     margin-top: 10px;
 }
 
+
+/* Card central */
 main {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: calc(100vh - 250px);
+  height: calc(100vh - 140px);
 }
-
 
 .card {
   background: white;
   padding: 40px;
   border-radius: 8px;
   box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+  width: 350px;
   text-align: center;
-  width: 680px;
-  height: calc( 250px);
-}
-
-.card .logo-card {
-  width: 100px;
-  margin-bottom: 15px;
 }
 
 .card h2 {
   color: #003366;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
 }
 
+.card p {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #333;
+}
 
+/* Inputs */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+label {
+  text-align: left;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+}
+
+input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  outline: none;
+}
+
+input:focus {
+  border-color: #0072c6;
+}
+
+/* Botões */
 .btn {
-  display: block;
   width: 100%;
   padding: 12px;
-  margin: 10px 0;
+  margin-top: 10px;
   background-color: #0072c6;
   border: none;
   color: white;
@@ -67,6 +93,8 @@ main {
   font-weight: bold;
   border-radius: 5px;
   cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
   transition: background 0.3s;
 }
 
@@ -74,3 +102,11 @@ main {
   background-color: #005a9c;
 }
 
+/* Botão voltar */
+.voltar {
+  background-color: #444;
+}
+
+.voltar:hover {
+  background-color: #222;
+}

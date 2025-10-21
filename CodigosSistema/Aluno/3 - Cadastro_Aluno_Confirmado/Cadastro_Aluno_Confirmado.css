@@ -1,13 +1,20 @@
 body {
   margin: 0;
   font-family: Arial, sans-serif;
-  background-color: #0277bd; /* azul no fundo */
+  background-color: #0277bd;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* altura 100% da tela */
+  min-height: 100vh;
 }
 
+header img {
+    width: 120px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.7);
+    margin-top: 10px;
+}
 
 .container {
   background: #fff;
@@ -18,6 +25,16 @@ body {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 h1 {
-  color: #0277bd; /* azul no título */
+  color: #0277bd;
   margin-bottom: 20px;
+}
+.titulo-confirmacao {
+  color: #0277bd;
+  margin-bottom: 20px;
+}
+.voltar {
+  background-color: #444;
+}
+.voltar:hover {
+  background-color: #222;
 }
