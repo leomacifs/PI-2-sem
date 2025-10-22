@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Totem da Biblioteca - Autoatendimento</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            
+      <img src="imagemlogo.png" alt="Logo da Biblioteca" class="logo-img" />
+            <h1>Totem da Biblioteca</h1>
+            <p class="subtitle">Sistema de Autoatendimento</p>
+        </header>
+        
+        <div class="menu" id="mainMenu">
+            <button class="btn" id="btnRetirada">Retirada de Livros</button>
+            <button class="btn" id="btnDevolucao">Devolução de Livros</button>
+        </div>
+        
+        <div class="form-container" id="formRetirada">
+            <h2>Retirada de Livros</h2>
+            <div class="form-group">
+                <label for="identificadorRetirada">Identificador do Aluno:</label>
+                <input type="text" id="identificadorRetirada" placeholder="Digite seu identificador">
+            </div>
+            <div class="form-group">
+                <label for="codigoLivro">Código do Livro:</label>
+                <input type="text" id="codigoLivro" placeholder="Digite o código do livro">
+            </div>
+            <div class="btn-container">
+                <button class="btn" id="confirmarRetirada">Confirmar Retirada</button>
+                <button class="btn btn-secondary" id="voltarRetirada">Voltar</button>
+            </div>
+            <div class="message" id="messageRetirada"></div>
+        </div>
+        
+        <div class="form-container" id="formDevolucao">
+            <h2>Devolução de Livros</h2>
+            <div class="form-group">
+                <label for="identificadorDevolucao">Identificador do Aluno:</label>
+                <input type="text" id="identificadorDevolucao" placeholder="Digite seu identificador">
+            </div>
+            <div class="form-group">
+                <label for="codigoLivroDevolucao">Código do Livro:</label>
+                <input type="text" id="codigoLivroDevolucao" placeholder="Digite o código do livro">
+            </div>
+            <div class="btn-container">
+                <button class="btn" id="confirmarDevolucao">Confirmar Devolução</button>
+                <button class="btn btn-secondary" id="voltarDevolucao">Voltar</button>
+            </div>
+            <div class="message" id="messageDevolucao"></div>
+        </div>
+        
+        <footer>
+            <p>PUC-Campinas - Sistema de Gestão de Biblioteca Universitária</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
