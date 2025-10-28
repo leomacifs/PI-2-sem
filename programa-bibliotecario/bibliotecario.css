@@ -38,7 +38,7 @@ header img {
   margin-top: 10px;
 }
 .logo-img {
-  width: 140px; /* logo ampliado */
+  width: 140px; 
   height: auto;
   object-fit: contain;
   border-radius: 8px;
