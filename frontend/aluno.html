@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programa do Aluno - Biblioteca Universitária</title>
+    <link rel="stylesheet" href="aluno.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="imagemlogo.png" alt="Logo da Biblioteca" class="logo-img" />
+            <h1>Programa do Aluno</h1>
+            <p class="subtitle">Sistema de Gestão de Biblioteca Universitária</p>
+        </header>
+
+        <nav class="menu" id="mainMenu">
+            <button class="btn" id="btnCadastro">Cadastro de Aluno</button>
+            <button class="btn" id="btnConsultaLivros">Consulta de Livros Disponíveis</button>
+            <button class="btn" id="btnPontuacao">Visualizar Pontuação</button>
+        </nav>
+
+        <div class="form-container" id="formCadastro">
+            <h2>Cadastro de Aluno</h2>
+            <div class="form-group">
+                <label for="nome">Nome Completo:</label>
+                <input type="text" id="nome" placeholder="Digite seu nome completo">
+            </div>
+            <div class="form-group">
+                <label for="identificador">Identificador (RA):</label>
+                <input type="text" id="identificador" placeholder="Digite seu identificador">
+            </div>
+            <div class="form-group">
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" placeholder="Digite seu e-mail">
+            </div>
+            <div class="form-group">
+                <label for="curso">Curso:</label>
+                <input type="text" id="curso" placeholder="Digite seu curso">
+            </div>
+            <div class="btn-container">
+                <button class="btn" id="confirmarCadastro">Confirmar Cadastro</button>
+                <button class="btn btn-secondary" id="voltarCadastro">Voltar</button>
+            </div>
+            <div class="message" id="messageCadastro"></div>
+        </div>
+
+        <div class="form-container" id="formConsultaLivros">
+            <h2>Consulta de Livros Disponíveis</h2>
+            <div class="form-group">
+                <label for="busca">Buscar Livro (título, autor ou ISBN):</label>
+                <input type="text" id="busca" placeholder="Digite título, autor ou ISBN">
+            </div>
+            <div class="btn-container">
+                <button class="btn" id="btnBuscar">Buscar</button>
+                <button class="btn btn-secondary" id="voltarConsultaLivros">Voltar</button>
+            </div>
+            <div class="results" id="resultsConsultaLivros">
+            </div>
+        </div>
+
+        <div class="form-container" id="formPontuacao">
+            <h2>Visualização de Pontuação</h2>
+            <div class="form-group">
+                <label for="identificadorPontuacao">Identificador (RA):</label>
+                <input type="text" id="identificadorPontuacao" placeholder="Digite seu identificador">
+            </div>
+            <div class="btn-container">
+                <button class="btn" id="btnVerPontuacao">Ver Pontuação</button>
+                <button class="btn btn-secondary" id="voltarPontuacao">Voltar</button>
+            </div>
+            <div class="message" id="messagePontuacao"></div>
+            <div class="pontuacao-info" id="pontuacaoInfo">
+            </div>
+        </div>
+
+        <footer>
+            <p>PUC-Campinas - Sistema de Gestão de Biblioteca Universitária</p>
+        </footer>
+    </div>
+
+    <script src="aluno.js"></script>
+</body>
+</html>

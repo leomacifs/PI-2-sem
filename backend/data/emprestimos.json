@@ -1,0 +1,32 @@
+{
+  "historico": [
+    {
+      "tipo": "Empréstimo",
+      "identificador": "25000607",
+      "isbn": "AAAA",
+      "livro": "AAAA",
+      "dataHora": "31/10/2025, 16:17:16"
+    },
+    {
+      "tipo": "Devolução",
+      "identificador": "25000607",
+      "isbn": "AAAA",
+      "livro": "AAAA",
+      "dataHora": "31/10/2025, 16:17:28"
+    },
+    {
+      "tipo": "Empréstimo",
+      "identificador": "25000607",
+      "isbn": "AAAA",
+      "livro": "AAAA",
+      "dataHora": "31/10/2025, 16:19:49"
+    },
+    {
+      "tipo": "Devolução",
+      "identificador": "25000607",
+      "isbn": "AAAA",
+      "livro": "AAAA",
+      "dataHora": "31/10/2025, 16:25:06"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "alunos": [
+    {
+      "nome": "Gustavo Gianfagna Moretti",
+      "identificador": "25000607",
+      "email": "morettigam3r@gmail.com",
+      "curso": "si",
+      "createdAt": "31/10/2025, 16:08:23"
+    },
+    {
+      "nome": "Gustavo ",
+      "identificador": "25000608",
+      "email": "morettigam3r@gmail.com",
+      "curso": "si",
+      "createdAt": "31/10/2025, 16:24:28"
+    }
+  ]
+}
