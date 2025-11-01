@@ -1,0 +1,14 @@
+{
+  "livros": [
+    {
+      "titulo": "AAAA",
+      "autor": "AAAA",
+      "isbn": "AAAA",
+      "editora": "AAA",
+      "ano": "1905",
+      "categoria": "AAAA",
+      "disponivel": true,
+      "createdAt": "31/10/2025, 16:16:45"
+    }
+  ]
+}
