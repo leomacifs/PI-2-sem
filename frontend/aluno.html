@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
+
+<head> <!-- Cabeçalho -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Programa do Aluno - Biblioteca Universitária</title>
     <link rel="stylesheet" href="aluno.css">
 </head>
+
 <body>
-    <div class="container">
+    <div class="container"> <!-- Tudo visto na tela ta aqui dentro -->
+
+        <!-- Cabeçalho com logo -->
         <header>
             <img src="imagemlogo.png" alt="Logo da Biblioteca" class="logo-img" />
             <h1>Programa do Aluno</h1>
             <p class="subtitle">Sistema de Gestão de Biblioteca Universitária</p>
         </header>
 
+        <!-- Menu de botões -->
         <nav class="menu" id="mainMenu">
             <button class="btn" id="btnCadastro">Cadastro de Aluno</button>
             <button class="btn" id="btnConsultaLivros">Consulta de Livros Disponíveis</button>
             <button class="btn" id="btnPontuacao">Visualizar Pontuação</button>
         </nav>
 
+        <!-- Formulário de cadastro de aluno -->
         <div class="form-container" id="formCadastro">
             <h2>Cadastro de Aluno</h2>
             <div class="form-group">
@@ -45,6 +51,7 @@
             <div class="message" id="messageCadastro"></div>
         </div>
 
+        <!-- Consulta de livros -->
         <div class="form-container" id="formConsultaLivros">
             <h2>Consulta de Livros Disponíveis</h2>
             <div class="form-group">
@@ -59,6 +66,7 @@
             </div>
         </div>
 
+        <!-- Pontuação -->
         <div class="form-container" id="formPontuacao">
             <h2>Visualização de Pontuação</h2>
             <div class="form-group">
@@ -74,6 +82,7 @@
             </div>
         </div>
 
+        <!-- Rodapé -->
         <footer>
             <p>PUC-Campinas - Sistema de Gestão de Biblioteca Universitária</p>
         </footer>

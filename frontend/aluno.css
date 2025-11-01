@@ -1,49 +1,49 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+* { /* = Para TODOS os elementos da página */
+    margin: 0; /* Remove espaços externos */
+    padding: 0; /* Remove espaços internos */
+    box-sizing: border-box; /* Facilita cálculo de tamanhos - mostra exatamente o tamanho pedido */
+    font-family: Arial, sans-serif; /* Definição de fonte padrão */
 }
 
-body {
-    background-color: #f5f5f5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
+body { /* Corpo da página */
+    background-color: #f5f5f5; /* Cor de fundo */
+    display: flex; /* Organiza os elemenentos em linha/coluna */
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    min-height: 100vh; /* Ocupa pelo menos a tela toda */
+    padding: 20px; /* */
 }
 
-.container {
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 800px;
+.container { /* Container principal */
+    background-color: white; 
+    border-radius: 10px; /* Cantos arredondados */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    width: 100%; /* Largura total */
+    max-width: 800px; /* Máx largura */
     padding: 30px;
 }
-header {
+header { /* Cabeçalho */
   background-color: #ffffff; 
-  color: white;
-  text-align: center;
+  color: white; 
+  text-align: center; /* Centralizado */
   padding: 20px;
 }
 
-header img {
-  width: 140px; 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
+header img { /* Logo */
+  width: 140px; /* Largura da logo */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra na imagem */
+  border-radius: 10px; 
   background-color: rgba(255, 255, 255, 0.7);
   margin-top: 10px;
 }
 .logo-img {
-  width: 140px; /* logo ampliado */
+  width: 140px; 
   height: auto;
-  object-fit: contain;
+  object-fit: contain; /* Imagem se ajusta para caber inteira */
   border-radius: 8px;
 }
 
-h1 {
+h1 { /* Título principal (Programa do aluno) */
     color: #2c3e50;
     margin-bottom: 10px;
 }
@@ -53,22 +53,22 @@ h1 {
     font-size: 1.1rem;
 }
 
-.menu {
+.menu { /* Lista de botôes */
     display: flex;
-    flex-direction: column;
-    gap: 15px;
+    flex-direction: column; /* Empilha verticalmente */
+    gap: 15px; 
     margin-bottom: 30px;
 }
 
-.btn {
+.btn { /* Config botões */
     background-color: #3498db;
     color: white;
     border: none;
     padding: 15px;
     font-size: 1.2rem;
     border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+    cursor: pointer; /* Mãozinha quando passa o mouse */
+    transition: background-color 0.3s; /* Escurece o botão quando passa o mouse*/
 }
 
 .btn:hover {
@@ -83,8 +83,9 @@ h1 {
     background-color: #7f8c8d;
 }
 
-.form-container {
-    display: none;
+/* Formulários: */
+.form-container { 
+    display: none; /* Começa invisível */
     background-color: #f9f9f9;
     padding: 20px;
     border-radius: 5px;
@@ -92,11 +93,11 @@ h1 {
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 15px; /* Espaço entre campos */
 }
 
 label {
-    display: block;
+    display: block; /* Pula linha no input */
     margin-bottom: 5px;
     font-weight: bold;
 }
@@ -108,7 +109,9 @@ input {
     border-radius: 4px;
     font-size: 1rem;
 }
+/* Fim formulários */
 
+/* Mensagens de alerta */
 .message {
     padding: 10px;
     margin-top: 15px;
@@ -129,13 +132,15 @@ input {
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
+/* Fim mensagens de alerta */
+
 
 .btn-container {
-    display: flex;
+    display: flex; /* Botões lado a lado */
     gap: 10px;
 }
 
-footer {
+footer { /* Rodapé */
     text-align: center;
     margin-top: 20px;
     color: #7f8c8d;
@@ -171,6 +176,7 @@ footer {
     margin-bottom: 5px;
 }
 
+/* Sistema de classificação por cor */
 .classificacao {
     font-weight: bold;
     margin-top: 10px;
