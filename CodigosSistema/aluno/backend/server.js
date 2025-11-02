@@ -9,9 +9,12 @@ const PORT = 3001;
 // Middlewares
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, '../frontend')));
 
-// Conexão MySQL (use a que funcionou para você)
+// Servir arquivos estáticos da pasta frontend E da pasta backend/js
+app.use(express.static(path.join(__dirname, '../frontend')));
+app.use('/js', express.static(path.join(__dirname, 'js'))); // ← ADICIONAR ESTA LINHA
+
+// Conexão MySQL
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -35,7 +38,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/Página_Inicial_A.html'));
 });
 
-// 🔽🔽🔽 ROTA STATUS (ADICIONAR ESTA!) 🔽🔽🔽
+// Rota status
 app.get('/api/status', (req, res) => {
     res.json({
         success: true,
@@ -43,6 +46,23 @@ app.get('/api/status', (req, res) => {
         mysql: db.state === 'authenticated' ? 'online' : 'offline',
         porta: PORT,
         timestamp: new Date().toLocaleString('pt-BR')
+    });
+});
+
+// ROTA DE TESTE DO BANCO (ADICIONAR ESTA)
+app.get('/api/teste-banco', (req, res) => {
+    db.query('SELECT 1 as result', (err, results) => {
+        if (err) {
+            return res.json({
+                success: false,
+                message: '❌ Erro no banco: ' + err.message
+            });
+        }
+        res.json({
+            success: true,
+            message: '✅ Banco conectado!',
+            data: results
+        });
     });
 });
 
@@ -57,7 +77,7 @@ app.post('/api/alunos/cadastrar', (req, res) => {
         });
     }
 
-    const sql = 'INSERT INTO aluno (ra, nome, email, telefone, pontuação) VALUES (?, ?, ?, ?, 0)';
+    const sql = 'INSERT INTO aluno (ra, nome, email, telefone, pontuacao) VALUES (?, ?, ?, ?, 0)';
     
     db.query(sql, [ra, nome, email, telefone], (err, result) => {
         if (err) {
@@ -69,7 +89,7 @@ app.post('/api/alunos/cadastrar', (req, res) => {
             }
             return res.status(500).json({
                 success: false,
-                message: 'Erro no banco de dados'
+                message: 'Erro no banco de dados: ' + err.message
             });
         }
 

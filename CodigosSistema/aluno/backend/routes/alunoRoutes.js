@@ -15,7 +15,7 @@ router.post('/cadastrar', (req, res) => {
     }
 
     // Inserir no banco (pontuação inicia em 0)
-    const sql = `INSERT INTO aluno (ra, nome, email, telefone, pontuação) VALUES (?, ?, ?, ?, 0)`;
+    const sql = `INSERT INTO aluno (ra, nome, email, telefone, pontuacao) VALUES (?, ?, ?, ?, 0)`;
     
     db.execute(sql, [ra, nome, email, telefone], (err, results) => {
         if (err) {
