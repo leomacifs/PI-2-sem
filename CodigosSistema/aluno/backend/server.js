@@ -1,25 +1,34 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
-
+const path = require('path');
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = 3001;
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
-app.use(express.static('../frontend')); // Serve seus arquivos frontend
 
-// Rotas
-const alunoRoutes = require('./routes/alunoRoutes');
-app.use('/api/alunos', alunoRoutes);
+// Servir arquivos estáticos do frontend
+app.use(express.static(path.join(__dirname, '../frontend')));
 
-// Rota inicial
+// Rota principal - vai para página inicial do aluno
 app.get('/', (req, res) => {
-    res.sendFile('Página_Inicial_A.html', { root: '../frontend' });
+    res.sendFile(path.join(__dirname, '../frontend/Página_Inicial_A.html'));
 });
 
+// Rota para teste da API
+app.get('/api/teste', (req, res) => {
+    res.json({ 
+        success: true, 
+        message: '✅ Backend funcionando!',
+        data: new Date().toLocaleString('pt-BR')
+    });
+});
+
+// Iniciar servidor
 app.listen(PORT, () => {
-    console.log(`Servidor rodando na porta ${PORT}`);
-    console.log(`Sistema de Biblioteca Universitária`);
+    console.log('=================================');
+    console.log('SERVIDOR RODANDO!');
+    console.log(`http://localhost:${PORT}`);
+    console.log('=================================');
 });
