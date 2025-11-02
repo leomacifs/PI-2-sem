@@ -10,19 +10,19 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json());
 
-// Servir arquivos estáticos da pasta frontend E da pasta backend/js
-app.use(express.static(path.join(__dirname, '../frontend')));
-app.use('/js', express.static(path.join(__dirname, 'js'))); // ← ADICIONAR ESTA LINHA
+// ==================== SERVIR FRONTENDS SEPARADOS ====================
+app.use('/aluno', express.static(path.join(__dirname, '../frontend/aluno')));
+app.use('/bibliotecario', express.static(path.join(__dirname, '../frontend/bibliotecario')));
+app.use('/js', express.static(path.join(__dirname, 'js'))); // JavaScript compartilhado
 
-// Conexão MySQL
+// Conexão MySQL ÚNICA
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'BreMaia13407', 
+    password: 'BreMaia13407',
     database: 'sistema_biblioteca'
 });
 
-// Conectar ao MySQL
 db.connect((err) => {
     if (err) {
         console.log('❌ Erro MySQL:', err.message);
@@ -31,100 +31,69 @@ db.connect((err) => {
     console.log('✅ Conectado ao MySQL!');
 });
 
-// ==================== ROTAS ====================
-
-// Rota principal
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/Página_Inicial_A.html'));
-});
-
-// Rota status
-app.get('/api/status', (req, res) => {
-    res.json({
-        success: true,
-        message: '✅ Servidor funcionando!',
-        mysql: db.state === 'authenticated' ? 'online' : 'offline',
-        porta: PORT,
-        timestamp: new Date().toLocaleString('pt-BR')
-    });
-});
-
-// ROTA DE TESTE DO BANCO (ADICIONAR ESTA)
-app.get('/api/teste-banco', (req, res) => {
-    db.query('SELECT 1 as result', (err, results) => {
-        if (err) {
-            return res.json({
-                success: false,
-                message: '❌ Erro no banco: ' + err.message
-            });
-        }
-        res.json({
-            success: true,
-            message: '✅ Banco conectado!',
-            data: results
-        });
-    });
-});
-
-// Rota para cadastrar aluno
+// ==================== ROTAS ALUNO ====================
 app.post('/api/alunos/cadastrar', (req, res) => {
-    const { ra, nome, email, telefone } = req.body;
+    // Sua rota atual de cadastro de aluno
+});
 
-    if (!ra || !nome || !email || !telefone) {
-        return res.status(400).json({
-            success: false,
-            message: 'Todos os campos são obrigatórios!'
-        });
-    }
+app.get('/api/alunos/login/:ra', (req, res) => {
+    // Sua rota atual de login
+});
 
-    const sql = 'INSERT INTO aluno (ra, nome, email, telefone, pontuacao) VALUES (?, ?, ?, ?, 0)';
+// ==================== ROTAS BIBLIOTECÁRIO ====================
+app.post('/api/bibliotecario/cadastrar-livro', (req, res) => {
+    const { titulo, autor, isbn, categoria } = req.body;
     
-    db.query(sql, [ra, nome, email, telefone], (err, result) => {
+    const sql = 'INSERT INTO livro (titulo, autor, isbn, categoria) VALUES (?, ?, ?, ?)';
+    
+    db.query(sql, [titulo, autor, isbn, categoria], (err, result) => {
         if (err) {
-            if (err.code === 'ER_DUP_ENTRY') {
-                return res.status(400).json({
-                    success: false,
-                    message: 'RA já cadastrado!'
-                });
-            }
             return res.status(500).json({
                 success: false,
-                message: 'Erro no banco de dados: ' + err.message
+                message: 'Erro ao cadastrar livro: ' + err.message
             });
         }
-
-        console.log('✅ Aluno cadastrado ID:', result.insertId);
         
         res.json({
             success: true,
-            message: 'Aluno cadastrado com sucesso!',
+            message: 'Livro cadastrado com sucesso!',
             id: result.insertId
         });
     });
 });
 
-// Rota para listar alunos (para teste)
-app.get('/api/alunos', (req, res) => {
-    db.query('SELECT * FROM aluno', (err, results) => {
-        if (err) {
-            return res.status(500).json({
-                success: false,
-                message: 'Erro ao buscar alunos'
-            });
-        }
-        res.json({
-            success: true,
-            alunos: results
-        });
+app.get('/api/bibliotecario/livros', (req, res) => {
+    // Listar livros para o bibliotecário
+});
+
+// ==================== ROTAS COMPARTILHADAS ====================
+app.get('/api/emprestimos', (req, res) => {
+    // Empréstimos (ambos os sistemas podem usar)
+});
+
+app.get('/api/status', (req, res) => {
+    res.json({
+        success: true,
+        message: '✅ Servidor funcionando!',
+        timestamp: new Date().toLocaleString('pt-BR')
     });
+});
+
+// ==================== ROTAS PRINCIPAIS ====================
+app.get('/', (req, res) => {
+    res.redirect('/aluno'); // Redireciona para sistema do aluno
+});
+
+app.get('/admin', (req, res) => {
+    res.redirect('/bibliotecario'); // Redireciona para sistema do bibliotecário
 });
 
 // Iniciar servidor
 app.listen(PORT, () => {
     console.log('=================================');
-    console.log('🚀 SERVIDOR RODANDO NA PORTA 3001!');
+    console.log('🚀 SERVIDOR ÚNICO RODANDO!');
     console.log('📚 http://localhost:3001');
-    console.log('🔍 Status: http://localhost:3001/api/status');
-    console.log('👥 Alunos: http://localhost:3001/api/alunos');
+    console.log('👨‍🎓 Sistema Aluno: http://localhost:3001/aluno');
+    console.log('👨‍💼 Sistema Bibliotecário: http://localhost:3001/bibliotecario');
     console.log('=================================');
 });
