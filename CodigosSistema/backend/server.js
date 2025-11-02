@@ -6,94 +6,90 @@ const app = express();
 
 const PORT = 3001;
 
-// Middlewares
+// IMPORTAR ROTAS 
+const alunoRoutes = require('./routes/alunoRoutes');
+const bibliotecarioRoutes = require('./routes/bibliotecarioRoutes');
+
+// CONFIGURAÇÃO 
 app.use(cors());
 app.use(express.json());
 
-// ==================== SERVIR FRONTENDS SEPARADOS ====================
-app.use('/aluno', express.static(path.join(__dirname, '../frontend/aluno')));
-app.use('/bibliotecario', express.static(path.join(__dirname, '../frontend/bibliotecario')));
-app.use('/js', express.static(path.join(__dirname, 'js'))); // JavaScript compartilhado
+// SERVIR ARQUIVOS ESTÁTICOS 
+app.use('/aluno', express.static(path.join(__dirname, '../aluno')));
+app.use('/bibliotecario', express.static(path.join(__dirname, '../bibliotecario')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
 
-// Conexão MySQL ÚNICA
+// ==================== CONEXÃO BANCO DE DADOS ====================
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'BreMaia13407',
     database: 'sistema_biblioteca'
 });
+//================================================================
+
 
 db.connect((err) => {
     if (err) {
-        console.log('❌ Erro MySQL:', err.message);
+        console.log('❌ ERRO MYSQL:', err.message);
+        console.log('🔍 Verifique:');
+        console.log('   - MySQL está rodando?');
+        console.log('   - Banco "sistema_biblioteca" existe?');
+        console.log('   - Usuário/senha estão corretos?');
         return;
     }
     console.log('✅ Conectado ao MySQL!');
 });
 
-// ==================== ROTAS ALUNO ====================
-app.post('/api/alunos/cadastrar', (req, res) => {
-    // Sua rota atual de cadastro de aluno
-});
+//USAR ROTAS
+app.use('/api/alunos', alunoRoutes);
+app.use('/api/bibliotecario', bibliotecarioRoutes);
 
-app.get('/api/alunos/login/:ra', (req, res) => {
-    // Sua rota atual de login
-});
+// ==================== ROTAS GERAIS ====================
 
-// ==================== ROTAS BIBLIOTECÁRIO ====================
-app.post('/api/bibliotecario/cadastrar-livro', (req, res) => {
-    const { titulo, autor, isbn, categoria } = req.body;
-    
-    const sql = 'INSERT INTO livro (titulo, autor, isbn, categoria) VALUES (?, ?, ?, ?)';
-    
-    db.query(sql, [titulo, autor, isbn, categoria], (err, result) => {
-        if (err) {
-            return res.status(500).json({
-                success: false,
-                message: 'Erro ao cadastrar livro: ' + err.message
-            });
-        }
-        
-        res.json({
-            success: true,
-            message: 'Livro cadastrado com sucesso!',
-            id: result.insertId
-        });
-    });
-});
-
-app.get('/api/bibliotecario/livros', (req, res) => {
-    // Listar livros para o bibliotecário
-});
-
-// ==================== ROTAS COMPARTILHADAS ====================
-app.get('/api/emprestimos', (req, res) => {
-    // Empréstimos (ambos os sistemas podem usar)
-});
-
+// STATUS DO SERVIDOR
 app.get('/api/status', (req, res) => {
     res.json({
         success: true,
         message: '✅ Servidor funcionando!',
+        mysql: db.state === 'authenticated' ? 'online' : 'offline',
         timestamp: new Date().toLocaleString('pt-BR')
     });
 });
 
-// ==================== ROTAS PRINCIPAIS ====================
+// TESTE DO BANCO
+app.get('/api/teste-banco', (req, res) => {
+    db.query('SELECT 1 as result', (err, results) => {
+        if (err) {
+            return res.status(500).json({
+                success: false,
+                message: '❌ Erro no banco: ' + err.message
+            });
+        }
+        res.json({
+            success: true,
+            message: '✅ Banco conectado!',
+            data: results
+        });
+    });
+});
+
+//ROTAS PRINCIPAIS ----------------------------------
 app.get('/', (req, res) => {
-    res.redirect('/aluno'); // Redireciona para sistema do aluno
+    res.redirect('/aluno/Página_Inicial_A.html');
 });
 
 app.get('/admin', (req, res) => {
-    res.redirect('/bibliotecario'); // Redireciona para sistema do bibliotecário
+    res.redirect('/bibliotecario/Página_Inicial_B.html');
 });
 
-// Iniciar servidor
+// INICIAR SERVIDOR --------------------------------------
 app.listen(PORT, () => {
     console.log('=================================');
-    console.log('🚀 SERVIDOR ÚNICO RODANDO!');
-    console.log('📚 http://localhost:3001');
-    console.log('👨‍🎓 Sistema Aluno: http://localhost:3001/aluno');
-    console.log('👨‍💼 Sistema Bibliotecário: http://localhost:3001/bibliotecario');
+    console.log('SERVIDOR RODANDO NA PORTA 3001!');
+    console.log('http://localhost:3001');
+    console.log('Sistema Aluno: http://localhost:3001/aluno/Página_Inicial_A.html');
+    console.log('Sistema Bibliotecário: http://localhost:3001/bibliotecario/Página_Inicial_B.html');
+    console.log('API Status: http://localhost:3001/api/status');
     console.log('=================================');
 });

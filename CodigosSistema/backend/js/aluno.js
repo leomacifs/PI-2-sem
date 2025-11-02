@@ -21,7 +21,6 @@ async function cadastrarAluno(event) {
     console.log('📤 Enviando dados para o servidor...', { ra, nome, email, telefone });
 
     try {
-        // Fazer requisição para o backend
         const response = await fetch(`${API_URL}/alunos/cadastrar`, {
             method: 'POST',
             headers: {
@@ -47,12 +46,12 @@ async function cadastrarAluno(event) {
 
     } catch (error) {
         console.error('❌ Erro de conexão:', error);
-        alert('❌ Erro de conexão com o servidor. Verifique se o backend está rodando.');
+        alert('❌ Erro de conexão com o servidor.');
     }
 }
 
 // Função para login
-function loginAluno(event) {
+async function loginAluno(event) {
     event.preventDefault();
     
     const ra = document.querySelector('input[name="ra"]').value;
@@ -62,7 +61,20 @@ function loginAluno(event) {
         return;
     }
 
-    alert(`Login realizado!\nRA: ${ra}`);
+    try {
+        const response = await fetch(`${API_URL}/alunos/login/${ra}`);
+        const data = await response.json();
+
+        if (data.success) {
+            alert(`✅ Login realizado com sucesso!\nBem-vindo, ${data.aluno.nome}!`);
+            // Aqui você pode redirecionar para a página do aluno logado
+        } else {
+            alert(`❌ Erro: ${data.message}`);
+        }
+    } catch (error) {
+        console.error('❌ Erro de conexão:', error);
+        alert('❌ Erro de conexão com o servidor.');
+    }
 }
 
 // Testar conexão com banco

@@ -9,12 +9,12 @@
 <body>
     <header>
         <h1>Sistema de Gestão de Biblioteca Universitária</h1>
-      <img src="imagemlogo.png" alt="Logo Biblioteca" width="100">
+        <img src="imagemlogo.png" alt="Logo Biblioteca" width="100">
     </header>
     <main>
         <section>
             <h2>Cadastro de Livros</h2>
-            <form>
+            <form id="formLivro">
                 <label for="livro">Título do Livro:</label>
                 <input type="text" id="livro" required>
 
@@ -28,10 +28,34 @@
                 <input type="text" id="genero">
 
                 <button type="submit">Confirmar Cadastro</button>
-                <button type="button" onclick="window.location.href='Página_Inicial_B.html'" style="background-color: #444; margin-top: 10px; width: 100%; padding: 10px;">Voltar</button>
             </form>
+            
+            <!-- ADICIONE ESTE BOTÃO PARA TESTE -->
+            <button onclick="testarFuncoes()" style="background-color: orange; margin-top: 10px;">
+                TESTAR JAVASCRIPT
+            </button>
         </section>
     </main>
+    
     <script src="/js/bibliotecario.js"></script>
+    
+    <!-- ADICIONE ESTE SCRIPT DE TESTE -->
+    <script>
+        function testarFuncoes() {
+            console.log('🎯 Botão de teste clicado!');
+            alert('JavaScript está funcionando!');
+            
+            // Testar se a função cadastrarLivro existe
+            if (typeof cadastrarLivro === 'function') {
+                console.log('✅ Função cadastrarLivro existe');
+            } else {
+                console.log('❌ Função cadastrarLivro NÃO existe');
+            }
+        }
+        
+        // Verificar se o script carregou
+        console.log('📄 Página Cadastrar_Livro carregada');
+        console.log('🔗 URL do script:', document.currentScript.src);
+    </script>
 </body>
 </html>
