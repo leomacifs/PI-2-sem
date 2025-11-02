@@ -1,44 +1,60 @@
-// URL base da API
-const API_BASE_URL = 'http://localhost:3001/api';
+// Sistema de Biblioteca - Aluno
+console.log('✅ Sistema de Biblioteca carregado!');
 
-// ==================== CADASTRO DE ALUNO ====================
-async function cadastrarAluno() {
+const API_URL = 'http://localhost:3001/api';
+
+// Função para cadastrar aluno NO BANCO
+async function cadastrarAluno(event) {
+    event.preventDefault();
+    
     const ra = document.getElementById('ra').value;
     const nome = document.getElementById('nome').value;
     const email = document.getElementById('Email').value;
     const telefone = document.getElementById('tel').value;
 
-    // Validação básica
+    // Validação
     if (!ra || !nome || !email || !telefone) {
         alert('Por favor, preencha todos os campos.');
         return;
     }
 
+    console.log('📤 Enviando dados para o servidor...', { ra, nome, email, telefone });
+
     try {
-        const response = await fetch(`${API_BASE_URL}/alunos/cadastrar`, {
+        // Fazer requisição para o backend
+        const response = await fetch(`${API_URL}/alunos/cadastrar`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ ra, nome, email, telefone })
+            body: JSON.stringify({
+                ra: parseInt(ra),
+                nome: nome,
+                email: email,
+                telefone: telefone
+            })
         });
 
         const data = await response.json();
+        console.log('📥 Resposta do servidor:', data);
 
         if (data.success) {
-            // Redireciona para página de confirmação
+            alert('✅ Aluno cadastrado com sucesso no banco de dados!');
             window.location.href = 'Cadastro_Aluno_Confirmado.html';
         } else {
-            alert('Erro: ' + data.message);
+            alert(`❌ Erro: ${data.message}`);
         }
+
     } catch (error) {
-        alert('Erro de conexão com o servidor. Verifique se o backend está rodando.');
-        console.error('Erro:', error);
+        console.error('❌ Erro de conexão:', error);
+        alert('❌ Erro de conexão com o servidor. Verifique se o backend está rodando.');
     }
 }
 
-// ==================== LOGIN DO ALUNO ====================
-async function loginAluno() {
+// Função para login
+function loginAluno(event) {
+    event.preventDefault();
+    
     const ra = document.querySelector('input[name="ra"]').value;
 
     if (!ra) {
@@ -46,41 +62,38 @@ async function loginAluno() {
         return;
     }
 
-    try {
-        const response = await fetch(`${API_BASE_URL}/alunos/login/${ra}`);
-        const data = await response.json();
+    alert(`Login realizado!\nRA: ${ra}`);
+}
 
-        if (data.success) {
-            alert(`Bem-vindo, ${data.aluno.nome}!`);
-            // Aqui você pode redirecionar para a área do aluno
-            // window.location.href = 'area-aluno.html';
-        } else {
-            alert('Erro: ' + data.message);
-        }
+// Testar conexão com banco
+async function testarConexaoBanco() {
+    try {
+        const response = await fetch(`${API_URL}/teste-banco`);
+        const data = await response.json();
+        console.log('🔍 Teste banco:', data);
     } catch (error) {
-        alert('Erro de conexão com o servidor. Verifique se o backend está rodando.');
-        console.error('Erro:', error);
+        console.log('❌ Backend não está respondendo');
     }
 }
 
-// ==================== EVENT LISTENERS ====================
-
-// Cadastro - Quando o formulário for enviado
+// Configurar eventos quando a página carregar
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('📄 Página carregada:', window.location.pathname);
+    
+    // Testar conexão quando a página inicial carregar
+    if (window.location.href.includes('Página_Inicial_A.html')) {
+        testarConexaoBanco();
+    }
+    
+    // Cadastro
     const formCadastro = document.querySelector('form');
     if (formCadastro && window.location.href.includes('Cadastrar.html')) {
-        formCadastro.addEventListener('submit', function(e) {
-            e.preventDefault();
-            cadastrarAluno();
-        });
+        formCadastro.addEventListener('submit', cadastrarAluno);
     }
-
-    // Login - Quando o formulário for enviado
+    
+    // Login
     const formLogin = document.querySelector('form');
     if (formLogin && window.location.href.includes('Login.html')) {
-        formLogin.addEventListener('submit', function(e) {
-            e.preventDefault();
-            loginAluno();
-        });
+        formLogin.addEventListener('submit', loginAluno);
     }
 });
