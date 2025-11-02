@@ -1,11 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../database');
+const db = require('../config/database');
 
 // CADASTRAR LIVRO ------------------------------
 router.post('/cadastrar-livro', (req, res) => {
-    console.log('📥 Dados recebidos (livro):', req.body);
-    
     const { titulo, autor, isbn, categoria } = req.body;
 
     if (!titulo || !autor || !isbn || !categoria) {
@@ -19,15 +17,12 @@ router.post('/cadastrar-livro', (req, res) => {
     
     db.query(sql, [titulo, autor, isbn, categoria], (err, result) => {
         if (err) {
-            console.log('❌ Erro no INSERT livro:', err.message);
             return res.status(500).json({
                 success: false,
                 message: 'Erro ao cadastrar livro: ' + err.message
             });
         }
 
-        console.log('✅ Livro cadastrado ID:', result.insertId);
-        
         res.json({
             success: true,
             message: 'Livro cadastrado com sucesso!',
@@ -42,7 +37,6 @@ router.get('/livros', (req, res) => {
     
     db.query(sql, (err, results) => {
         if (err) {
-            console.log('❌ Erro no SELECT livros:', err.message);
             return res.status(500).json({
                 success: false,
                 message: 'Erro ao buscar livros: ' + err.message
@@ -64,7 +58,6 @@ router.get('/livros/:id', (req, res) => {
     
     db.query(sql, [id], (err, results) => {
         if (err) {
-            console.log('❌ Erro ao buscar livro:', err.message);
             return res.status(500).json({
                 success: false,
                 message: 'Erro ao buscar livro: ' + err.message
@@ -101,7 +94,6 @@ router.put('/livros/:id', (req, res) => {
     
     db.query(sql, [titulo, autor, isbn, categoria, id], (err, result) => {
         if (err) {
-            console.log('❌ Erro ao atualizar livro:', err.message);
             return res.status(500).json({
                 success: false,
                 message: 'Erro ao atualizar livro: ' + err.message
@@ -130,7 +122,6 @@ router.delete('/livros/:id', (req, res) => {
     
     db.query(sql, [id], (err, result) => {
         if (err) {
-            console.log('❌ Erro ao excluir livro:', err.message);
             return res.status(500).json({
                 success: false,
                 message: 'Erro ao excluir livro: ' + err.message
@@ -175,7 +166,6 @@ router.get('/dashboard', (req, res) => {
             }
         });
     }).catch(err => {
-        console.log('❌ Erro no dashboard:', err.message);
         res.status(500).json({
             success: false,
             message: 'Erro ao carregar dashboard'

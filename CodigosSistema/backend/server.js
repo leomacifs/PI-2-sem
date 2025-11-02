@@ -28,17 +28,10 @@ const db = mysql.createConnection({
 });
 //================================================================
 
-
 db.connect((err) => {
     if (err) {
-        console.log('❌ ERRO MYSQL:', err.message);
-        console.log('🔍 Verifique:');
-        console.log('   - MySQL está rodando?');
-        console.log('   - Banco "sistema_biblioteca" existe?');
-        console.log('   - Usuário/senha estão corretos?');
         return;
     }
-    console.log('✅ Conectado ao MySQL!');
 });
 
 //USAR ROTAS
@@ -51,7 +44,7 @@ app.use('/api/bibliotecario', bibliotecarioRoutes);
 app.get('/api/status', (req, res) => {
     res.json({
         success: true,
-        message: '✅ Servidor funcionando!',
+        message: 'Servidor funcionando!',
         mysql: db.state === 'authenticated' ? 'online' : 'offline',
         timestamp: new Date().toLocaleString('pt-BR')
     });
@@ -63,12 +56,12 @@ app.get('/api/teste-banco', (req, res) => {
         if (err) {
             return res.status(500).json({
                 success: false,
-                message: '❌ Erro no banco: ' + err.message
+                message: 'Erro no banco: ' + err.message
             });
         }
         res.json({
             success: true,
-            message: '✅ Banco conectado!',
+            message: 'Banco conectado!',
             data: results
         });
     });

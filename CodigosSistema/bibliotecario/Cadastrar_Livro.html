@@ -29,33 +29,9 @@
 
                 <button type="submit">Confirmar Cadastro</button>
             </form>
-            
-            <!-- ADICIONE ESTE BOTÃO PARA TESTE -->
-            <button onclick="testarFuncoes()" style="background-color: orange; margin-top: 10px;">
-                TESTAR JAVASCRIPT
-            </button>
         </section>
     </main>
     
     <script src="/js/bibliotecario.js"></script>
-    
-    <!-- ADICIONE ESTE SCRIPT DE TESTE -->
-    <script>
-        function testarFuncoes() {
-            console.log('🎯 Botão de teste clicado!');
-            alert('JavaScript está funcionando!');
-            
-            // Testar se a função cadastrarLivro existe
-            if (typeof cadastrarLivro === 'function') {
-                console.log('✅ Função cadastrarLivro existe');
-            } else {
-                console.log('❌ Função cadastrarLivro NÃO existe');
-            }
-        }
-        
-        // Verificar se o script carregou
-        console.log('📄 Página Cadastrar_Livro carregada');
-        console.log('🔗 URL do script:', document.currentScript.src);
-    </script>
 </body>
 </html>

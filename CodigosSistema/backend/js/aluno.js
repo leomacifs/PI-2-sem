@@ -1,9 +1,6 @@
-// Sistema de Biblioteca - Aluno
-console.log('✅ Sistema de Biblioteca carregado!');
-
 const API_URL = 'http://localhost:3001/api';
 
-// Função para cadastrar aluno NO BANCO
+// Função para cadastrar aluno no banco
 async function cadastrarAluno(event) {
     event.preventDefault();
     
@@ -17,8 +14,6 @@ async function cadastrarAluno(event) {
         alert('Por favor, preencha todos os campos.');
         return;
     }
-
-    console.log('📤 Enviando dados para o servidor...', { ra, nome, email, telefone });
 
     try {
         const response = await fetch(`${API_URL}/alunos/cadastrar`, {
@@ -35,7 +30,6 @@ async function cadastrarAluno(event) {
         });
 
         const data = await response.json();
-        console.log('📥 Resposta do servidor:', data);
 
         if (data.success) {
             alert('✅ Aluno cadastrado com sucesso no banco de dados!');
@@ -45,7 +39,6 @@ async function cadastrarAluno(event) {
         }
 
     } catch (error) {
-        console.error('❌ Erro de conexão:', error);
         alert('❌ Erro de conexão com o servidor.');
     }
 }
@@ -67,36 +60,16 @@ async function loginAluno(event) {
 
         if (data.success) {
             alert(`✅ Login realizado com sucesso!\nBem-vindo, ${data.aluno.nome}!`);
-            // Aqui você pode redirecionar para a página do aluno logado
         } else {
             alert(`❌ Erro: ${data.message}`);
         }
     } catch (error) {
-        console.error('❌ Erro de conexão:', error);
         alert('❌ Erro de conexão com o servidor.');
-    }
-}
-
-// Testar conexão com banco
-async function testarConexaoBanco() {
-    try {
-        const response = await fetch(`${API_URL}/teste-banco`);
-        const data = await response.json();
-        console.log('🔍 Teste banco:', data);
-    } catch (error) {
-        console.log('❌ Backend não está respondendo');
     }
 }
 
 // Configurar eventos quando a página carregar
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('📄 Página carregada:', window.location.pathname);
-    
-    // Testar conexão quando a página inicial carregar
-    if (window.location.href.includes('Página_Inicial_A.html')) {
-        testarConexaoBanco();
-    }
-    
     // Cadastro
     const formCadastro = document.querySelector('form');
     if (formCadastro && window.location.href.includes('Cadastrar.html')) {
