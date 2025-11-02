@@ -1,0 +1,52 @@
+
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sistema de Biblioteca - Totem</title>
+
+  <link rel="stylesheet" href="Página_Inicial_T.css">
+</head>
+<body>
+  <header>
+    <div class="title">Sistema de Biblioteca - Autoatendimento</div>
+    <div class="imagemlogo" aria-hidden="true">
+      <img src="imagemlogo.png" alt="Logo da Biblioteca" class="logo-img" />
+    </div>
+  </header>
+
+  <main class="wrap" role="main">
+    <div class="card" role="region" aria-labelledby="card-title">
+      <h2 id="card-title">Bem-vindo(a)!</h2>
+      <p class="subtitle">Escolha uma das opções abaixo para iniciar o processo.</p>
+
+      <div class="actions" role="navigation" aria-label="Ações principais">
+        <button class="btn" id="btn-retirada" aria-label="Iniciar retirada">
+       
+          Retirada
+        </button>
+
+        <button class="btn btn--outline" id="btn-devolucao" aria-label="Iniciar devolução">
+       
+          Devolução
+        </button>
+      </div>
+
+      <p class="hint">Toque em uma opção para prosseguir. O sistema abrirá a tela correspondente.</p>
+    </div>
+  </main>
+
+  <script>
+    // pequenas ações de demonstração (os handlers podem ser ligados ao sistema real)
+    document.getElementById('btn-retirada').addEventListener('click', function(){
+      alert('Iniciando fluxo de Retirada...');
+      // ... aqui abrir a tela de retirada ...
+    });
+    document.getElementById('btn-devolucao').addEventListener('click', function(){
+      alert('Iniciando fluxo de Devolução...');
+      // ... aqui abrir a tela de devolução ...
+    });
+  </script>
+</body>
+</html>
