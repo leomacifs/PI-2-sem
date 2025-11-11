@@ -3,15 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - Biblioteca Universitária</title>
+  <title>Login</title>
   <link rel="stylesheet" href="Login.css">
 </head>
 <body>
 
-  <header class="topo">
-    <h1>Sistema de Biblioteca - Aluno</h1>
-    <img src="imagemlogo.png" alt="Biblioteca Universitária" class="logo">
-  </header>
+ <header>
+  <a href="Página_Inicial_A.html" class="logo-link">
+    <img src="imagemlogo.png" alt="Logo PUC" class="header-logo">
+  </a>
+  
+  <div class="header-text">
+    <h1>Biblioteca Universitária</h1>
+    <h2>Área do aluno</h2>
+  </div>
+</header>
 
   <main class="container">
     <div class="card">
@@ -19,8 +25,8 @@
       <p>Insira seu RA:</p>
       <form action="#" method="post">
         <input type="text" name="ra" placeholder="Digite seu RA" required>
-        <button type="submit" class="btn-primary">Logar</button>
-        <a href="Página_Inicial_A.html" class="btn voltar">Voltar</a>
+        <button type="submit" class="btn-primary">Entrar</button>
+        <a href="Página_Inicial_A.html" class="btn">Voltar</a>
       </form>
     </div>
   </main>

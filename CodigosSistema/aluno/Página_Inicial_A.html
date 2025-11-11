@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema de Biblioteca - Aluno</title>
+  <title>Página Inicial</title>
   <link rel="stylesheet" href="Página_Inicial_A.css">
 </head>
+
 <body>
-  <header>
-    <h1>Sistema de Biblioteca - Aluno</h1>
-    <img src="imagemlogo.png" alt="Biblioteca Universitária" class="logo">
-  </header>
+<header>
+  <a href="Página_Inicial_A.html" class="logo-link">
+    <img src="imagemlogo.png" alt="Logo PUC" class="header-logo">
+  </a>
+  
+  <div class="header-text">
+    <h1>Biblioteca Universitária</h1>
+    <h2>Área do aluno</h2>
+  </div>
+</header>
 
   <main>
-    <div class="card">
-      <h2>Biblioteca Universitária</h2>
-      
+    <div class="card">      
       <button class="btn" onclick="window.location.href='Cadastrar.html'">Cadastrar</button>
-      <button class="btn" onclick="window.location.href='Login.html'">Já Cadastrado</button>
+    </div>
+
+    <div class="card">      
+      <button class="btn" onclick="window.location.href='Login.html'">Entrar</button>
     </div>
   </main>
   <script src="/js/aluno.js"></script>
