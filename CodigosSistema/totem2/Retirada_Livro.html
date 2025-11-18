@@ -1,40 +1,41 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Totem - Autoatendimento</title>
+  <title>Retirada</title>
   <link rel="stylesheet" href="Retirada_Livro.css">
 </head>
 <body>
-<header>
-  <h1>Sistema de Biblioteca - Totem - Autoatendimento</h1>
-  <img src="imagemlogo.png" alt="Logo Biblioteca" width="100">
-</header>
-<main>
-  <div class="card" role="region" aria-labelledby="card-title">
-    <h2 id="card-title">Retirada de Livro</h2>
-    <p class="subtitle">Escolha uma das opções abaixo para iniciar o processo.</p>
-    
-    <form>
-      <div class="form-group">
-        <label for="ra">RA:</label>
-        <input type="text" id="ra" name="ra" placeholder="Digite o RA">
-      </div>
-      
-      <div class="form-group">
-        <label for="livro">Nome/Código do livro:</label>
-        <input type="text" id="livro" name="livro" placeholder="Digite nome ou código do livro">
-      </div>
-      
-      <div class="actions" role="navigation">
-        <button class="btn" id="btn-retirada" onclick="navigateTo('confirmadoretirada.html')">Confirmar retirada</button>
-      </div>
-    </form>
-    
-    <p class="hint">Toque em uma opção para prosseguir. O sistema abrirá a tela correspondente.</p>
+
+ <header>
+  <a href="Página_Inicial_T.html" class="logo-link">
+    <img src="imagemlogo.png" alt="Logo PUC" class="header-logo">
+  </a>
+  
+  <div class="header-text">
+    <h1>Biblioteca Universitária</h1>
+    <h2>Autoatendimento</h2>
   </div>
-</main>
+</header>
+
+  <main class="container">
+
+    <div class="card">
+      <h2>Retirada de livro</h2>
+      <p>Insira seu RA:</p>
+      <form action="#" method="post">
+        <input type="text" name="ra" placeholder="Digite seu RA" required>
+
+      <p>Insira o livro desejado:</p>
+      <form action="#" method="post">
+        <input type="text" name="ra" placeholder="Digite o nome do livro" required>
+
+        <a href="Retirada_Confirmada.html" class="btn-primary">Retirar</button>
+        <a href="Página_Inicial_T.html" class="btn">Voltar</a>
+      </form>
+    </div>
+  </main>
+  <script src="/js/totem.js"></script>
 </body>
 </html>
