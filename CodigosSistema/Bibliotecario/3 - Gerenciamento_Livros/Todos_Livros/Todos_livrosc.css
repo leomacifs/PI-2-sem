@@ -1,0 +1,213 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; 
+  font-family: Arial, Helvetica, sans-serif;;
+}
+
+body {
+  background-color: #fffcf6e9;
+}
+
+header {
+  background-color: #053054;  
+  color: rgb(255, 255, 255);
+  text-align: center;
+  padding: 20px;
+}
+
+.logo-link {
+  position: absolute;
+  left: 20px;
+  top: 50px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.header-logo {
+  width: 150px;
+  height: auto;
+  border-radius: 4px;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.main-header {
+  position: relative; 
+  background-color: #053054;
+  height: 100px; 
+  display: flex;
+  align-items: center; 
+  padding: 0 20px;
+}
+
+.header-titles {
+  position: absolute; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  text-align: center; 
+  width: 100%; 
+  pointer-events: none; 
+}
+
+.header-titles h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+}
+
+.header-titles h2 {
+  font-size: 24px;
+  font-weight: bolder; 
+  margin: 0;
+  color: white;
+}
+.main-header {
+  background-color: #053054;
+  color: white;
+  padding: 10px 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.card {
+  background: #ffffff;
+  max-width: 800px; 
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+  color: #003366; 
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 1.5em;
+}
+
+.tab-link:hover:not(.active) {
+  background: #f1f3f5; 
+}
+
+.tab-content h4 {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.book-summary-box {
+  background: #e6f2ff; 
+  border: 1px solid #b3d7ff;
+  border-radius: 6px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.book-summary-box p {
+  margin: 5px 0;
+  font-size: 1em;
+}
+
+.book-accordion-list {
+  max-height: 450px; 
+  overflow-y: auto;
+  padding-right: 10px; 
+}
+
+.book-item {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  background: #fff;
+}
+
+.book-item summary {
+  font-size: 1.1em;
+  font-weight: bold;
+  padding: 15px;
+  cursor: pointer;
+  list-style: inside;
+}
+
+.book-item[open] > summary {
+  background: #f9f9f9; 
+  border-bottom: 1px solid #eee;
+}
+
+.book-details {
+  padding: 15px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.book-details p {
+  margin: 8px 0;
+  line-height: 1.5;
+  font-size: 0.95em;
+}
+
+.book-details p strong {
+  color: #444; 
+}
+
+.status-bar {
+  padding: 12px;
+  text-align: center;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-top: 15px;
+  font-size: 0.9em;
+}
+
+.status-bar.available {
+  background: #d4edda; 
+  color: #155724;
+}
+
+.status-bar.borrowed {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.btn {
+  display: block; 
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.voltar {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #656565;;
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 10px;
+  border: none;
+  transition: background-color 0.3s;
+}
+.voltar {
+  background-color: #444;
+}
+
+.voltar:hover {
+  background-color: #656565;
+}

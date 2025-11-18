@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro Livros</title>
+  <link rel="stylesheet" href="Cadastrar_Livro.css">
+</head>
+<body>
+
+  <header>
+  <a href="Cadastrar_Livro.html" class="logo-link">
+    <img src="imagemlogo.png" alt="Logo PUC" class="header-logo">
+  </a>
+  
+  <div class="header-text">
+    <h1>Biblioteca Universitária</h1>
+    <h2>Área do aluno</h2>
+  </div>
+</header>
+
+ 
+  <main>
+    <div class="card">
+      <h2>Cadastrar livro</h2>
+      <p>Preencha todos os campos abaixo para realizar o cadastro do livro:</p>
+
+      <form>
+        <label for="titulo">Título do Livro:</label>
+        <input type="text" id="titulo" name="titulo" required>
+
+        <label for="autor">Autor:</label>
+        <input type="text" id="autor" name="autor" required>
+
+        <label for="codigo">Código:</label>
+        <input type="text" id="codigo" name="codigo" required>
+
+        <label for="">Categoria:</label>
+        <input type="text" id="categoria" name="categoria" required>
+
+        <button type="button" class="btn" onclick="window.location.href='Cadastro_Confirmado/Cadastro_Livro_Confirmado.html'">Confirmar Cadastro</button>
+        <button type="button" class="voltar" onclick="window.location.href='../1 - Pagina_Inicial/Pagina_inicial.html'">Voltar</button>
+      </form>
+    </div>
+  </main>
+  <script src="/js/bibliotecario.js"></script>
+</body>
+</html>

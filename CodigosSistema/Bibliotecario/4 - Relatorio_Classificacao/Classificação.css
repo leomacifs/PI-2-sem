@@ -1,0 +1,222 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; 
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: #fffcf6e9;
+}
+
+.main-header {
+  position: relative; 
+  background-color: #053054;
+  height: 100px; 
+  display: flex;
+  align-items: center; 
+  padding: 0 20px;
+}
+
+.header-logo {
+  width: 150px;
+  height: auto;
+  border-radius: 4px;
+  z-index: 2; 
+}
+
+.header-titles {
+  position: absolute; 
+  left: 50%; 
+  transform: translateX(-50%); 
+  text-align: center; 
+  width: 100%; 
+  pointer-events: none; 
+}
+
+.header-titles h1 {
+  font-size: 32px;
+  font-weight: bold;
+  margin: 0;
+  color: white;
+}
+
+.header-titles h2 {
+  font-size: 24px;
+  font-weight: bolder; 
+  margin: 0;
+  color: white;
+  opacity: 0.9;
+}
+
+main {
+  padding: 40px 20px;
+}
+
+.card {
+  background: #ffffff;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.1);
+}
+
+.card-header-row {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.card h3 {
+  color: #000; 
+  font-weight: bold;
+  font-size: 1.6em;
+  margin: 0;
+  text-align: center;
+}
+.titulo-badge {
+  display: inline-block;      
+  background-color: #053054; 
+  color: white;                
+  padding: 10px 20px;         
+  border-radius: 5px;          
+  font-weight: bold;          
+  font-size: 1.1em;           
+  margin-bottom: 15px;         
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+}
+
+.btn-report {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.btn-report:hover {
+    background-color: #2980b9;
+}
+
+.btn-report.active {
+    background-color: #053054; 
+}
+
+.section-title {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin: 20px 0 15px 0;
+    color: #333;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.custom-table th, 
+.custom-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.custom-table th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    color: #333;
+}
+
+.custom-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+.history-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 0.85em;
+  text-align: center;
+}
+
+.badge-extremo {
+  background-color: #fadbd8;
+  color: #c0392b;
+}
+
+.badge-ativo {
+  background-color: #fff3cd;
+  color: #856404; 
+}
+
+.badge-regular {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.badge-iniciante {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.stats-box {
+    background-color: #eef6fb; 
+    border: 1px solid #daeaf3;
+    border-radius: 6px;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.stats-box h4 {
+    margin-bottom: 10px;
+    color: #053054;
+    font-size: 1.1em;
+}
+
+.stats-box p {
+    margin: 5px 0;
+    font-size: 0.95em;
+    color: #444;
+}
+
+.divider {
+    border: 0;
+    height: 1px;
+    background: #ddd;
+    margin: 30px 0;
+}
+
+.voltar {
+  display: block;
+  width: 200px; 
+  padding: 12px;
+  background-color: #444; 
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  margin: 30px auto 0 auto; 
+  transition: background-color 0.3s;
+}
+
+.voltar:hover {
+  background-color: #656565;
+}
