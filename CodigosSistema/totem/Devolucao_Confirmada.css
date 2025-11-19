@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #053054;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+header img {
+    width: 250px;
+    border-radius: 10px;
+    margin-top:0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 400px;
+  background: #fff;
+  padding: 40px;
+  border-radius: 8px;
+  width: 600px;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.conteudo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+  padding: 20px 0;
+}
+
+
+h1 {
+  color: #053054;
+  margin-bottom: 20px;
+}
+.titulo-confirmacao {
+  color: #053054;
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: block;
+  width: 50%;
+  padding: 12px;
+  margin: 30px;
+  margin-top: 30px;
+  background-color: #053054;
+  border: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background-color: #124e79;
+}
