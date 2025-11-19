@@ -67,6 +67,12 @@ main {
   margin-bottom: 25px;
 }
 
+.card h3 {
+  color: #47596c;
+  margin-bottom: 25px;
+  font-size:medium;
+}
+
 
 .btn {
   display: block;
