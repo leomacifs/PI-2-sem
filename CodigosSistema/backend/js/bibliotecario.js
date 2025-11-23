@@ -1,64 +1,36 @@
 const API_URL = 'http://localhost:3001/api/bibliotecario';
 
-// ==================== CADASTRAR LIVRO ====================
-async function cadastrarLivro(event) {
-    
-    // Prevenir comportamento padrão do formulário
-    event.preventDefault();
-    
-    const titulo = document.getElementById('livro').value;
-    const autor = document.getElementById('autor').value;
-    const isbn = document.getElementById('qtd').value;
-    const categoria = document.getElementById('genero').value;
-
-
-    // Validação
-    if (!titulo || !autor || !isbn || !categoria) {
-        alert('Por favor, preencha todos os campos.');
-        return;
-    }
-
-    try {        
-        const response = await fetch(`${API_URL}/cadastrar-livro`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                titulo: titulo,
-                autor: autor,
-                isbn: isbn,
-                categoria: categoria
-            })
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-            alert('✅ Livro cadastrado com sucesso no banco de dados!');
-            window.location.href = 'Cadastro_Livro_Confirmado.html';
-        } else {
-            alert(`❌ Erro: ${data.message}`);
-        }
-
-    } catch (error) {
-        alert('❌ Erro de conexão com o servidor.');
-    }
-}
-
-// ==================== CONFIGURAÇÃO INICIAL ====================
 document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
     
-    // Cadastro de Livros
-    const formCadastroLivro = document.querySelector('form');
-    
-    if (formCadastroLivro && window.location.href.includes('Cadastrar_Livro.html')) {
-        formCadastroLivro.addEventListener('submit', cadastrarLivro);
-        
-        // Também adicionar pelo ID para garantir
-        const formById = document.getElementById('formLivro');
-        if (formById) {
-            formById.addEventListener('submit', cadastrarLivro);
-        }
-    } 
+    // Verifica se está na página de cadastro
+    if (form && window.location.href.includes('Cadastrar_Livro')) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Não recarrega a página
+
+            const titulo = document.getElementById('titulo').value;
+            const autor = document.getElementById('autor').value;
+            const codigo = document.getElementById('codigo').value;
+            const categoria = document.getElementById('categoria').value;
+
+            try {
+                const response = await fetch(`${API_URL}/cadastrar-livro`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ titulo, autor, codigo, categoria })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    alert('Livro Cadastrado!');
+                    window.location.href = 'Cadastro_Confirmado/Cadastro_Livro_Confirmado.html';
+                } else {
+                    alert('Erro: ' + data.message);
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Erro ao conectar com o servidor.');
+            }
+        });
+    }
 });
