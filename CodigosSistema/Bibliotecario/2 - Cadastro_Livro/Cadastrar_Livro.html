@@ -20,8 +20,9 @@
 </header>
   <script>
     function handleSubmit(event) {
+     
       event.preventDefault(); // Impede o envio padrão do formulário
-      alert("ois")
+     
       const form = event.target;
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
@@ -51,7 +52,7 @@
       <h2>Cadastrar livro</h2>
       <p>Preencha todos os campos abaixo para realizar o cadastro do livro:</p>
 
-      <form action="http://localhost:3001/api/bibliotecario/cadastrar-livro" method="post" onsubmit={handleSubmit} >
+      <form action="http://localhost:3001/api/bibliotecario/cadastrar-livro" method="post" onsubmit={handleSubmit(event)} >
         <label for="titulo">Título do Livro:</label>
         <input type="text" id="titulo" name="titulo" required>
 
