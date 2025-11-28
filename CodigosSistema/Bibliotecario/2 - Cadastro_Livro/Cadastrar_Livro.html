@@ -44,15 +44,13 @@
         alert('Ocorreu um erro ao cadastrar o livro. Por favor, tente novamente.');
       });
     }
-
   </script>
- 
   <main>
     <div class="card">
       <h2>Cadastrar livro</h2>
       <p>Preencha todos os campos abaixo para realizar o cadastro do livro:</p>
 
-      <form action="http://localhost:3001/api/bibliotecario/cadastrar-livro" method="post" onsubmit={handleSubmit(event)} >
+      <form>
         <label for="titulo">Título do Livro:</label>
         <input type="text" id="titulo" name="titulo" required>
 
@@ -62,7 +60,7 @@
         <label for="codigo">Código:</label>
         <input type="text" id="codigo" name="codigo" required>
 
-        <label for="">Categoria:</label>
+        <label for="categoria">Categoria:</label>
         <input type="text" id="categoria" name="categoria" required>
 
         <button type="submit" class="btn">Confirmar Cadastro</button>
@@ -70,6 +68,6 @@
       </form>
     </div>
   </main>
-  <script src="/js/bibliotecario.js"></script>
+  <script src="/backend/js/bibliotecario.js"></script>
 </body>
 </html>

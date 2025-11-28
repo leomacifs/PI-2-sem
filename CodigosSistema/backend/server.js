@@ -40,7 +40,6 @@ db.connect(err => {
 
 // --- API: BIBLIOTECÁRIO ---
 app.post('/api/bibliotecario/cadastrar-livro', (req, res) => {
-    // Com body-parser, usamos req.body direto, sem promessas
     console.log(req.body)
     try {
          const { titulo, autor, codigo, categoria } = req.body; 
@@ -48,6 +47,13 @@ app.post('/api/bibliotecario/cadastrar-livro', (req, res) => {
     if (!titulo || !autor || !codigo || !categoria) {
         return res.status(400).json({ success: false, message: 'Campos vazios.' });
     }
+
+    app.get('/api/bibliotecario/livros', (req, res) => {
+    db.query('SELECT * FROM livros', (err, results) => {
+        if (err) return res.status(500).json({ success: false, message: err.message });
+        res.status(200).json({ success: true, livros: results });
+    });
+});
 
     const sql = 'INSERT INTO livros (titulo, autor, codigo, categoria, disponivel) VALUES (?, ?, ?, ?, 1)';
     db.query(sql, [titulo, autor, codigo, categoria], (err) => {

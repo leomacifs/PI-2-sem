@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <link rel="stylesheet" href="Todos_livrosc.css">
-    
     <title>Todos os Livros - Biblioteca Universitária</title>
 </head>
 <body>
@@ -20,52 +18,23 @@
 
     <main>
         <div class="card">
-            
             <h3>Todos os livros</h3>
             <section class="tab-content">
                 
                 <div class="book-summary-box">
-                    <p><strong>Disponíveis:</strong> 4</p>
-                    <p><strong>Emprestados:</strong> 1</p>
+                    <p><strong>Status do Acervo</strong></p>
                 </div>
 
-                <div class="book-accordion-list">
-                    
-                    <details class="book-item" open>
-                        <summary>Introdução à Programação</summary>
-                        <div class="book-details">
-                            <p><strong>Autor:</strong> João Silva</p>
-                            <p><strong>Código:</strong> 1234567890</p>
-                            <p><strong>Categoria:</strong> Programação</p>
-                            <div class="status-bar available">Disponível</div>
-                        </div>
-                    </details>
+                <div id="lista-livros" class="book-accordion-list">
+                    <p style="text-align:center">Carregando livros...</p>
+                </div>
 
-                    <details class="book-item" open>
-                        <summary>Estruturas de Dados</summary>
-                        <div class="book-details">
-                            <p><strong>Autor:</strong> Maria Santos</p>
-                            <p><strong>Código:</strong> 0987654321</p>
-                            <p><strong>Categoria:</strong> Programação</p>
-                            <div class="status-bar borrowed">Emprestado</div>
-                        </div>
-                    </details>
-
-                    <details class="book-item">
-                        <summary>Banco de Dados</summary>
-                        <div class="book-details">
-                            <p><strong>Autor:</strong> Carlos Pereira</p>
-                            <p><strong>Código:</strong> 1122334455</p>
-                            <p><strong>Categoria:</strong> Banco de Dados</p>
-                            <div class="status-bar available">Disponível</div>
-                        </div>
-                    </details>
-                    </div>
                 <a href="../../3 - Gerenciamento_Livros/Gerenciamento_Livros.html" class="voltar">Voltar</a>
                 
             </section>
+        </div> 
+    </main>
 
-        </div> </main>
-  <script src="/js/bibliotecario.js"></script>
+    <script src="/backend/js/bibliotecario.js"></script>
 </body>
 </html>
