@@ -4,7 +4,7 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'BreMaia13407',
-    database: 'sistema_biblioteca'
+    database: 'biblioteca_db'
 });
 
 module.exports = db;
