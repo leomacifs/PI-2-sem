@@ -4,7 +4,6 @@ const db = require('../config/database');
 
 // CADASTRAR LIVRO
 router.post('/cadastrar-livro', (req, res) => {
-    // ALTERADO: Recebe 'codigo' ao invés de 'isbn'
     const { titulo, autor, codigo, categoria } = req.body;
 
     if (!titulo || !autor || !codigo || !categoria) {
@@ -14,7 +13,6 @@ router.post('/cadastrar-livro', (req, res) => {
         });
     }
 
-    // ALTERADO: SQL usa 'codigo' e adiciona 'disponivel' como padrão 1
     const sql = 'INSERT INTO livro (titulo, autor, codigo, categoria, disponivel) VALUES (?, ?, ?, ?, 1)';
     
     db.query(sql, [titulo, autor, codigo, categoria], (err, result) => {
@@ -58,7 +56,6 @@ router.get('/livros/:id', (req, res) => {
 // ATUALIZAR LIVRO
 router.put('/livros/:id', (req, res) => {
     const { id } = req.params;
-    // ALTERADO: Recebe 'codigo'
     const { titulo, autor, codigo, categoria } = req.body;
 
     const sql = 'UPDATE livro SET titulo = ?, autor = ?, codigo = ?, categoria = ? WHERE id_livro = ?';
@@ -103,6 +100,26 @@ router.get('/dashboard', (req, res) => {
         });
     }).catch(err => {
         res.status(500).json({ success: false, message: 'Erro dashboard: ' + err.message });
+    });
+
+});
+
+router.get('/relatorio-classificacao', (req, res) => {
+    // Busca alunos e conta quantos empréstimos com status 'devolvido' eles têm
+    const sql = `
+        SELECT a.nome, a.ra, COUNT(e.id_livro) as total_lidos
+        FROM aluno a
+        LEFT JOIN emprestimo e ON a.id_aluno = e.id_aluno AND e.status = 'devolvido'
+        GROUP BY a.id_aluno
+        ORDER BY total_lidos DESC
+    `;
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            return res.status(500).json({ success: false, message: 'Erro no banco: ' + err.message });
+        }
+        
+        res.json({ success: true, ranking: results });
     });
 });
 

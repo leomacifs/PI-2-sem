@@ -30,56 +30,22 @@
                         <tr>
                             <th>Posição</th>
                             <th>Aluno</th>
-                            <th>Identificador</th>
+                            <th>Identificador (RA)</th>
                             <th>Livros Lidos</th>
                             <th>Classificação</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>1º</td>
-                            <td>Ana Costa</td>
-                            <td>25262214</td>
-                            <td>25</td>
-                            <td><span class="history-badge badge-extremo">Leitor Extremo</span></td>
-                        </tr>
-                        <tr>
-                            <td>2º</td>
-                            <td>João Silva</td>
-                            <td>25202598</td>
-                            <td>18</td>
-                            <td><span class="history-badge badge-ativo">Leitor Ativo</span></td>
-                        </tr>
-                        <tr>
-                            <td>3º</td>
-                            <td>Carlos Mendes</td>
-                            <td>25986252</td>
-                            <td>12</td>
-                            <td><span class="history-badge badge-ativo">Leitor Ativo</span></td>
-                        </tr>
-                        <tr>
-                            <td>4º</td>
-                            <td>Maria Santos</td>
-                            <td>25639416</td>
-                            <td>8</td>
-                            <td><span class="history-badge badge-regular">Leitor Regular</span></td>
-                        </tr>
-                        <tr>
-                            <td>5º</td>
-                            <td>Pedro Oliveira</td>
-                            <td>25636221</td>
-                            <td>3</td>
-                            <td><span class="history-badge badge-iniciante">Leitor Iniciante</span></td>
-                        </tr>
-                    </tbody>
+                    <tbody id="tabela-ranking-body">
+                        </tbody>
                 </table>
+                <p id="mensagem-tabela" style="text-align: center; margin-top: 10px;">Carregando dados...</p>
             </div>
 
             <div class="stats-box">
                 <h4>Estatísticas Gerais</h4>
-                <p><strong>Total de alunos:</strong> 5</p>
-                <p><strong>Média de livros lidos:</strong> 13.2</p>
-                <p><strong>Leitor com mais livros:</strong> Ana Costa (25 livros)</p>
+                <p><strong>Total de alunos:</strong> <span id="stat-total-alunos">-</span></p>
+                <p><strong>Média de livros lidos:</strong> <span id="stat-media-livros">-</span></p>
+                <p><strong>Leitor com mais livros:</strong> <span id="stat-top-leitor">-</span></p>
             </div>
 
             <hr class="divider">
@@ -96,32 +62,8 @@
                             <th>Percentual</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Leitor Iniciante</td>
-                            <td>até 5 livros lidos no semestre</td>
-                            <td>15</td>
-                            <td>30%</td>
-                        </tr>
-                        <tr>
-                            <td>Leitor Regular</td>
-                            <td>6 a 10 livros</td>
-                            <td>20</td>
-                            <td>40%</td>
-                        </tr>
-                        <tr>
-                            <td>Leitor Ativo</td>
-                            <td>11 a 20 livros</td>
-                            <td>10</td>
-                            <td>20%</td>
-                        </tr>
-                        <tr>
-                            <td>Leitor Extremo</td>
-                            <td>mais de 20 livros</td>
-                            <td>5</td>
-                            <td>10%</td>
-                        </tr>
-                    </tbody>
+                    <tbody id="tabela-categorias-body">
+                         </tbody>
                 </table>
             </div>
 

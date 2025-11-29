@@ -2,7 +2,110 @@ const API_URL = 'http://localhost:3001/api/bibliotecario';
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form');
-    
+    // LÓGICA DA TELA DE CLASSIFICAÇÃO
+    const tabelaRanking = document.getElementById('tabela-ranking-body');
+    const tabelaCategorias = document.getElementById('tabela-categorias-body');
+
+    if (tabelaRanking) {
+        carregarRelatorioClassificacao();
+    }
+
+    async function carregarRelatorioClassificacao() {
+        try {
+            const response = await fetch(`${API_URL}/relatorio-classificacao`);
+            const data = await response.json();
+
+            if (data.success) {
+                renderizarRanking(data.ranking);
+                calcularEstatisticas(data.ranking);
+            } else {
+                document.getElementById('mensagem-tabela').innerText = 'Erro ao carregar dados.';
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            document.getElementById('mensagem-tabela').innerText = 'Erro de conexão.';
+        }
+    }
+
+    function renderizarRanking(listaAlunos) {
+        tabelaRanking.innerHTML = '';
+        const msg = document.getElementById('mensagem-tabela');
+        
+        if (listaAlunos.length === 0) {
+            msg.innerText = 'Nenhum dado encontrado.';
+            return;
+        }
+        msg.style.display = 'none';
+
+        listaAlunos.forEach((aluno, index) => {
+            const categoria = definirCategoria(aluno.total_lidos);
+            const html = `
+                <tr>
+                    <td>${index + 1}º</td>
+                    <td>${aluno.nome}</td>
+                    <td>${aluno.ra}</td>
+                    <td>${aluno.total_lidos}</td>
+                    <td><span class="history-badge ${categoria.classe}">${categoria.nome}</span></td>
+                </tr>
+            `;
+            tabelaRanking.innerHTML += html;
+        });
+    }
+
+    function definirCategoria(qtd) {
+        if (qtd > 20) return { nome: 'Leitor Extremo', classe: 'badge-extremo' };
+        if (qtd > 10) return { nome: 'Leitor Ativo', classe: 'badge-ativo' };
+        if (qtd > 5)  return { nome: 'Leitor Regular', classe: 'badge-regular' };
+        return { nome: 'Leitor Iniciante', classe: 'badge-iniciante' };
+    }
+
+    function calcularEstatisticas(lista) {
+        // Estatísticas Gerais
+        const totalAlunos = lista.length;
+        const totalLivros = lista.reduce((acc, curr) => acc + curr.total_lidos, 0);
+        const media = totalAlunos > 0 ? (totalLivros / totalAlunos).toFixed(1) : 0;
+        const topLeitor = lista.length > 0 ? `${lista[0].nome} (${lista[0].total_lidos})` : '-';
+
+        document.getElementById('stat-total-alunos').innerText = totalAlunos;
+        document.getElementById('stat-media-livros').innerText = media;
+        document.getElementById('stat-top-leitor').innerText = topLeitor;
+
+        // Contagem de Categorias
+        const contagem = { 'Iniciante': 0, 'Regular': 0, 'Ativo': 0, 'Extremo': 0 };
+        
+        lista.forEach(a => {
+            const cat = definirCategoria(a.total_lidos).nome.replace('Leitor ', '');
+            if (contagem[cat] !== undefined) contagem[cat]++;
+        });
+
+        // Renderizar Tabela de Categorias
+        tabelaCategorias.innerHTML = `
+            <tr>
+                <td>Leitor Iniciante</td>
+                <td>até 5 livros</td>
+                <td>${contagem['Iniciante']}</td>
+                <td>${((contagem['Iniciante'] / totalAlunos) * 100).toFixed(0)}%</td>
+            </tr>
+            <tr>
+                <td>Leitor Regular</td>
+                <td>6 a 10 livros</td>
+                <td>${contagem['Regular']}</td>
+                <td>${((contagem['Regular'] / totalAlunos) * 100).toFixed(0)}%</td>
+            </tr>
+            <tr>
+                <td>Leitor Ativo</td>
+                <td>11 a 20 livros</td>
+                <td>${contagem['Ativo']}</td>
+                <td>${((contagem['Ativo'] / totalAlunos) * 100).toFixed(0)}%</td>
+            </tr>
+            <tr>
+                <td>Leitor Extremo</td>
+                <td>mais de 20 livros</td>
+                <td>${contagem['Extremo']}</td>
+                <td>${((contagem['Extremo'] / totalAlunos) * 100).toFixed(0)}%</td>
+            </tr>
+        `;
+    }
 
     if (form && window.location.href.includes('Cadastrar_Livro')) {
         form.addEventListener('submit', async (e) => {
