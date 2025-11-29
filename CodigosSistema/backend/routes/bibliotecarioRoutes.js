@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
 
+// ===================== ROTAS DE LIVROS =====================
+
 // CADASTRAR LIVRO
 router.post('/cadastrar-livro', (req, res) => {
     const { titulo, autor, codigo, categoria } = req.body;
@@ -13,7 +15,6 @@ router.post('/cadastrar-livro', (req, res) => {
         });
     }
 
-    // CORREÇÃO: Tabela 'livros' (plural)
     const sql = 'INSERT INTO livros (titulo, autor, codigo, categoria, disponivel) VALUES (?, ?, ?, ?, 1)';
     
     db.query(sql, [titulo, autor, codigo, categoria], (err, result) => {
@@ -32,9 +33,8 @@ router.post('/cadastrar-livro', (req, res) => {
     });
 });
 
-// LISTAR LIVROS
+// LISTAR TODOS OS LIVROS
 router.get('/livros', (req, res) => {
-    // CORREÇÃO: Tabela 'livros' (plural)
     const sql = 'SELECT * FROM livros ORDER BY titulo';
     
     db.query(sql, (err, results) => {
@@ -46,7 +46,6 @@ router.get('/livros', (req, res) => {
 // BUSCAR LIVRO POR ID
 router.get('/livros/:id', (req, res) => {
     const { id } = req.params;
-    // CORREÇÃO: Tabela 'livros' e coluna 'id'
     const sql = 'SELECT * FROM livros WHERE id = ?'; 
     
     db.query(sql, [id], (err, results) => {
@@ -61,7 +60,6 @@ router.put('/livros/:id', (req, res) => {
     const { id } = req.params;
     const { titulo, autor, codigo, categoria } = req.body;
 
-    // CORREÇÃO: Tabela 'livros' e coluna 'id'
     const sql = 'UPDATE livros SET titulo = ?, autor = ?, codigo = ?, categoria = ? WHERE id = ?';
     
     db.query(sql, [titulo, autor, codigo, categoria, id], (err, result) => {
@@ -73,7 +71,6 @@ router.put('/livros/:id', (req, res) => {
 // EXCLUIR LIVRO
 router.delete('/livros/:id', (req, res) => {
     const { id } = req.params;
-    // CORREÇÃO: Tabela 'livros' e coluna 'id'
     const sql = 'DELETE FROM livros WHERE id = ?'; 
     
     db.query(sql, [id], (err, result) => {
@@ -82,18 +79,19 @@ router.delete('/livros/:id', (req, res) => {
     });
 });
 
-// DASHBOARD
+// ===================== ROTAS DE RELATÓRIOS =====================
+
+// DASHBOARD (Contadores)
 router.get('/dashboard', (req, res) => {
-    
-    // CORREÇÃO: Tabela 'livros'
+    // Busca total de livros
     db.query('SELECT COUNT(*) as total FROM livros', (err, resultLivros) => {
         if (err) return res.status(500).json({ success: false, message: err.message });
 
-        // CORREÇÃO: Tabela 'alunos'
+        // Busca total de alunos
         db.query('SELECT COUNT(*) as total FROM alunos', (err, resultAlunos) => {
             if (err) return res.status(500).json({ success: false, message: err.message });
 
-            // CORREÇÃO: Tabela 'livros'
+            // Busca livros disponíveis
             db.query('SELECT COUNT(*) as disponiveis FROM livros WHERE disponivel = 1', (err, resultDisp) => {
                 if (err) return res.status(500).json({ success: false, message: err.message });
 
@@ -110,10 +108,8 @@ router.get('/dashboard', (req, res) => {
     });
 });
 
+// RELATÓRIO DE CLASSIFICAÇÃO (Ranking de Leitura)
 router.get('/relatorio-classificacao', (req, res) => {
-    // CORREÇÃO GERAL: Tabelas no plural e junção correta dos IDs
-    // a.id é o ID do aluno na tabela 'alunos'
-    // e.id_aluno é a chave estrangeira na tabela 'emprestimos'
     const sql = `
         SELECT a.nome, a.ra, COUNT(e.id_livro) as total_lidos
         FROM alunos a
@@ -126,8 +122,36 @@ router.get('/relatorio-classificacao', (req, res) => {
         if (err) {
             return res.status(500).json({ success: false, message: 'Erro no banco: ' + err.message });
         }
-        
         res.json({ success: true, ranking: results });
+    });
+});
+
+// HISTÓRICO COMPLETO (Últimos 6 Meses)
+router.get('/historico-completo', (req, res) => {
+    const query = `
+        SELECT 'Empréstimo' as tipo, l.titulo, a.nome, a.ra, e.data_retirada as data_evento 
+        FROM emprestimos e 
+        JOIN livros l ON e.id_livro = l.id 
+        JOIN alunos a ON e.id_aluno = a.id
+        WHERE e.data_retirada >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
+        
+        UNION ALL
+        
+        SELECT 'Devolução' as tipo, l.titulo, a.nome, a.ra, e.data_devolucao as data_evento 
+        FROM emprestimos e 
+        JOIN livros l ON e.id_livro = l.id 
+        JOIN alunos a ON e.id_aluno = a.id
+        WHERE e.status = 'devolvido' AND e.data_devolucao >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
+        
+        ORDER BY data_evento DESC
+    `;
+
+    db.query(query, (err, results) => {
+        if (err) {
+            console.error("Erro SQL Histórico:", err);
+            return res.status(500).json({ success: false, message: 'Erro ao buscar histórico' });
+        }
+        res.json({ success: true, historico: results });
     });
 });
 

@@ -182,4 +182,58 @@ document.addEventListener('DOMContentLoaded', function() {
             listaLivrosContainer.innerHTML = '<p>Erro de conexão com o sistema.</p>';
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+    
+    // Verifica se estamos na página de Histórico Completo procurando pelo ID da lista
+    const listaHistorico = document.getElementById('listaHistorico');
+
+    if (listaHistorico) {
+        carregarHistoricoCompleto();
+    }
+
+    async function carregarHistoricoCompleto() {
+        try {
+            // Chama a rota que criamos no passo 1
+            const response = await fetch('http://localhost:3001/api/bibliotecario/historico-completo');
+            const data = await response.json();
+
+            if (data.success) {
+                listaHistorico.innerHTML = ''; // Limpa a mensagem de "Carregando..."
+
+                if (data.historico.length === 0) {
+                    listaHistorico.innerHTML = '<p style="text-align:center; padding:20px;">Nenhum registro nos últimos 6 meses.</p>';
+                    return;
+                }
+
+                data.historico.forEach(item => {
+                    const dataFormatada = new Date(item.data_evento).toLocaleString('pt-BR', {
+                        day: '2-digit', month: '2-digit', year: 'numeric',
+                        hour: '2-digit', minute: '2-digit'
+                    });
+
+                    const classeBadge = item.tipo === 'Empréstimo' ? 'loan' : 'return';
+
+                    const itemHtml = `
+                        <div class="history-item">
+                            <div class="history-info">
+                                <p><strong>${item.tipo}:</strong> ${item.titulo}</p>
+                                <p><strong>Aluno:</strong> ${item.nome} <strong>RA:</strong> ${item.ra}</p>
+                                <p><strong>Data/Hora:</strong> ${dataFormatada}</p>
+                            </div>
+                            <div class="history-badge ${classeBadge}">${item.tipo}</div>
+                        </div>
+                    `;
+                    
+                    listaHistorico.innerHTML += itemHtml;
+                });
+            } else {
+                alert('Erro ao carregar dados: ' + data.message);
+            }
+        } catch (error) {
+            console.error('Erro:', error);
+            listaHistorico.innerHTML = '<p style="color:red; text-align:center;">Erro de conexão com o servidor.</p>';
+        }
+    }
+});
 });
