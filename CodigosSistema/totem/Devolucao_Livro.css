@@ -81,11 +81,18 @@ header {
 }
 
 input[type="text"] {
-  width: 70%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+    width: 80%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    outline: none;
+    margin-bottom: 10px;
+}
+
+input[type="text"]:focus {
+    border-color: #053054; 
+    box-shadow: 0 0 5px rgba(5, 48, 84, 0.3);
 }
 
 .btn-primary {

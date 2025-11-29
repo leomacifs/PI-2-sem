@@ -22,16 +22,16 @@
     <div class="card">
       <h2>Retirada de livro</h2>
       
-      <form action="#" method="post">
-        <p>Insira seu RA:</p>
-        <input type="text" name="ra" placeholder="Digite seu RA" required>
+    <form id="formRetirada">
+      <label>RA do Aluno:</label>
+      <input type="text" name="ra" placeholder="Digite o RA" required>
+      
+      <label>Código do Livro:</label>
+      <input type="text" name="codigo_livro" placeholder="Código de barras" required>
 
-        <p>Insira o livro desejado:</p>
-        <input type="text" name="codigo_livro" placeholder="Digite o nome/código do livro" required>
-
-        <button type="submit" class="btn-primary">Retirar</button>
-        <a href="Página_Inicial_T.html" class="btn">Voltar</a>
-      </form> </div>
+      <button type="submit" class="btn-primary">Confirmar Retirada</button>
+      <a href="Página_Inicial_T.html" class="btn">Voltar</a>
+  </form>
   </main>
   <script src="/backend/js/totem.js"></script>
 </body>

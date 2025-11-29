@@ -7,6 +7,5 @@ Integrantes do grupo:
 
 Leonardo Maciel - 25013925 
 Brenda Maia - 25010054 
-Nicollas Fabbio - 25007563 
-Gustavo Moretti - 25000607 
+Nicollas Fabbio - 25007563  
 Viviane Costa - 25897398
