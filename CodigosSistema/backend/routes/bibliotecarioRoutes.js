@@ -79,29 +79,27 @@ router.delete('/livros/:id', (req, res) => {
 
 // DASHBOARD
 router.get('/dashboard', (req, res) => {
-    const queries = {
-        totalLivros: 'SELECT COUNT(*) as total FROM livro',
-        totalAlunos: 'SELECT COUNT(*) as total FROM aluno',
-        livrosDisponiveis: 'SELECT COUNT(*) as disponiveis FROM livro WHERE disponivel = 1',
-    };
+    
+    db.query('SELECT COUNT(*) as total FROM livro', (err, resultLivros) => {
+        if (err) return res.status(500).json({ success: false, message: err.message });
 
-    Promise.all([
-        db.promise().query(queries.totalLivros),
-        db.promise().query(queries.totalAlunos),
-        db.promise().query(queries.livrosDisponiveis)
-    ]).then(([livrosResult, alunosResult, disponiveisResult]) => {
-        res.json({
-            success: true,
-            dashboard: {
-                totalLivros: livrosResult[0][0].total,
-                totalAlunos: alunosResult[0][0].total,
-                livrosDisponiveis: disponiveisResult[0][0].disponiveis
-            }
+        db.query('SELECT COUNT(*) as total FROM aluno', (err, resultAlunos) => {
+            if (err) return res.status(500).json({ success: false, message: err.message });
+
+            db.query('SELECT COUNT(*) as disponiveis FROM livro WHERE disponivel = 1', (err, resultDisp) => {
+                if (err) return res.status(500).json({ success: false, message: err.message });
+
+                res.json({
+                    success: true,
+                    dashboard: {
+                        totalLivros: resultLivros[0].total,
+                        totalAlunos: resultAlunos[0].total,
+                        livrosDisponiveis: resultDisp[0].disponiveis
+                    }
+                });
+            });
         });
-    }).catch(err => {
-        res.status(500).json({ success: false, message: 'Erro dashboard: ' + err.message });
     });
-
 });
 
 router.get('/relatorio-classificacao', (req, res) => {

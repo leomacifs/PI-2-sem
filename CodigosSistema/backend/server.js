@@ -53,22 +53,38 @@ app.post('/api/totem/retirada', (req, res) => {
 
     // 1. Acha aluno
     db.query('SELECT id_aluno FROM aluno WHERE ra = ?', [ra], (err, alunos) => {
+        if (err) return res.status(500).json({ success: false, message: "Erro servidor" });
         if (!alunos || !alunos.length) return res.status(404).json({ success: false, message: 'Aluno não encontrado' });
+        
         const idAluno = alunos[0].id_aluno;
 
-        // 2. Acha livro por CODIGO e vê se está DISPONIVEL
-        const sqlLivro = 'SELECT id_livro FROM livro WHERE codigo = ? AND disponivel = 1';
+        // 2. Acha livro e VERIFICA DISPONIBILIDADE
+        const sqlLivro = 'SELECT id_livro, disponivel FROM livro WHERE codigo = ?';
         db.query(sqlLivro, [codigo_livro], (err, livros) => {
-            if (!livros || !livros.length) return res.status(404).json({ success: false, message: 'Livro indisponível ou código inválido' });
-            const idLivro = livros[0].id_livro;
+            if (err) return res.status(500).json({ success: false, message: "Erro ao buscar livro" });
+            if (!livros || !livros.length) return res.status(404).json({ success: false, message: 'Livro não encontrado' });
+            
+            const livro = livros[0];
+
+            // Validação extra de segurança
+            if (livro.disponivel === 0) {
+                return res.status(400).json({ success: false, message: 'Livro já está emprestado!' });
+            }
 
             // 3. Cria Empréstimo
-            const sqlEmp = 'INSERT INTO emprestimo (id_aluno, id_livro, data_devolucao_prevista, status) VALUES (?, ?, DATE_ADD(NOW(), INTERVAL 7 DAY), "ativo")';
-            db.query(sqlEmp, [idAluno, idLivro], (err) => {
-                if(err) return res.status(500).json({success: false, message: "Erro ao gravar empréstimo"});
+            const sqlEmp = 'INSERT INTO emprestimo (id_aluno, id_livro, data_retirada, data_devolucao_prevista, status) VALUES (?, ?, NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), "ativo")';
+            
+            db.query(sqlEmp, [idAluno, livro.id_livro], (err) => {
+                if(err) {
+                    console.error(err);
+                    return res.status(500).json({success: false, message: "Erro ao registrar empréstimo"});
+                }
                 
-                // 4. Marca indisponível
-                db.query('UPDATE livro SET disponivel = 0 WHERE id_livro = ?', [idLivro], () => {
+                // 4. SÓ AGORA marca como indisponível
+                db.query('UPDATE livro SET disponivel = 0 WHERE id_livro = ?', [livro.id_livro], (errUpdate) => {
+                    if (errUpdate) {
+                        console.error("ERRO CRÍTICO: Empréstimo criado mas livro não atualizado", errUpdate);
+                    }
                     res.status(200).json({ success: true });
                 });
             });

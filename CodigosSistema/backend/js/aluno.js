@@ -1,13 +1,14 @@
 const API_URL = 'http://localhost:3001/api/aluno';
 
 document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('formLogin'); 
     const form = document.querySelector('form');
 
-    // Lógica de LOGIN
-    if (form && window.location.href.includes('Login.html')) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const ra = document.querySelector('input[name="ra"]').value;
+    // Lógica de LOGIN 
+    if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); 
+            const ra = loginForm.querySelector('input[name="ra"]').value;
 
             try {
                 const response = await fetch(`${API_URL}/login`, {
@@ -29,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-
+    // Lógica de CADASTRO 
     if (form && window.location.href.includes('Cadastrar.html')) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
