@@ -2,20 +2,22 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
 
-// CADASTRAR LIVRO ------------------------------
+// CADASTRAR LIVRO
 router.post('/cadastrar-livro', (req, res) => {
-    const { titulo, autor, isbn, categoria } = req.body;
+    // ALTERADO: Recebe 'codigo' ao invés de 'isbn'
+    const { titulo, autor, codigo, categoria } = req.body;
 
-    if (!titulo || !autor || !isbn || !categoria) {
+    if (!titulo || !autor || !codigo || !categoria) {
         return res.status(400).json({
             success: false,
             message: 'Todos os campos são obrigatórios!'
         });
     }
 
-    const sql = 'INSERT INTO livro (titulo, autor, isbn, categoria) VALUES (?, ?, ?, ?)';
+    // ALTERADO: SQL usa 'codigo' e adiciona 'disponivel' como padrão 1
+    const sql = 'INSERT INTO livro (titulo, autor, codigo, categoria, disponivel) VALUES (?, ?, ?, ?, 1)';
     
-    db.query(sql, [titulo, autor, isbn, categoria], (err, result) => {
+    db.query(sql, [titulo, autor, codigo, categoria], (err, result) => {
         if (err) {
             return res.status(500).json({
                 success: false,
@@ -31,127 +33,61 @@ router.post('/cadastrar-livro', (req, res) => {
     });
 });
 
-// ==================== LISTAR LIVROS ====================
+// LISTAR LIVROS
 router.get('/livros', (req, res) => {
     const sql = 'SELECT * FROM livro ORDER BY titulo';
     
     db.query(sql, (err, results) => {
-        if (err) {
-            return res.status(500).json({
-                success: false,
-                message: 'Erro ao buscar livros: ' + err.message
-            });
-        }
-
-        res.json({
-            success: true,
-            livros: results
-        });
+        if (err) return res.status(500).json({ success: false, message: err.message });
+        res.json({ success: true, livros: results });
     });
 });
 
-// ==================== BUSCAR LIVRO POR ID ====================
+// BUSCAR LIVRO POR ID
 router.get('/livros/:id', (req, res) => {
     const { id } = req.params;
-    
-    const sql = 'SELECT * FROM livro WHERE id = ?';
+    const sql = 'SELECT * FROM livro WHERE id_livro = ?'; // Atenção: id_livro ou id (verifique seu banco)
     
     db.query(sql, [id], (err, results) => {
-        if (err) {
-            return res.status(500).json({
-                success: false,
-                message: 'Erro ao buscar livro: ' + err.message
-            });
-        }
-
-        if (results.length === 0) {
-            return res.status(404).json({
-                success: false,
-                message: 'Livro não encontrado.'
-            });
-        }
-
-        res.json({
-            success: true,
-            livro: results[0]
-        });
+        if (err) return res.status(500).json({ success: false, message: err.message });
+        if (results.length === 0) return res.status(404).json({ success: false, message: 'Livro não encontrado.' });
+        res.json({ success: true, livro: results[0] });
     });
 });
 
-// ==================== ATUALIZAR LIVRO ====================
+// ATUALIZAR LIVRO
 router.put('/livros/:id', (req, res) => {
     const { id } = req.params;
-    const { titulo, autor, isbn, categoria } = req.body;
+    // ALTERADO: Recebe 'codigo'
+    const { titulo, autor, codigo, categoria } = req.body;
 
-    if (!titulo || !autor || !isbn || !categoria) {
-        return res.status(400).json({
-            success: false,
-            message: 'Todos os campos são obrigatórios!'
-        });
-    }
-
-    const sql = 'UPDATE livro SET titulo = ?, autor = ?, isbn = ?, categoria = ? WHERE id = ?';
+    const sql = 'UPDATE livro SET titulo = ?, autor = ?, codigo = ?, categoria = ? WHERE id_livro = ?';
     
-    db.query(sql, [titulo, autor, isbn, categoria, id], (err, result) => {
-        if (err) {
-            return res.status(500).json({
-                success: false,
-                message: 'Erro ao atualizar livro: ' + err.message
-            });
-        }
-
-        if (result.affectedRows === 0) {
-            return res.status(404).json({
-                success: false,
-                message: 'Livro não encontrado.'
-            });
-        }
-
-        res.json({
-            success: true,
-            message: 'Livro atualizado com sucesso!'
-        });
+    db.query(sql, [titulo, autor, codigo, categoria, id], (err, result) => {
+        if (err) return res.status(500).json({ success: false, message: err.message });
+        res.json({ success: true, message: 'Livro atualizado com sucesso!' });
     });
 });
 
-// ==================== EXCLUIR LIVRO ====================
+// EXCLUIR LIVRO
 router.delete('/livros/:id', (req, res) => {
     const { id } = req.params;
-
-    const sql = 'DELETE FROM livro WHERE id = ?';
+    const sql = 'DELETE FROM livro WHERE id_livro = ?'; // Use id_livro se essa for a PK
     
     db.query(sql, [id], (err, result) => {
-        if (err) {
-            return res.status(500).json({
-                success: false,
-                message: 'Erro ao excluir livro: ' + err.message
-            });
-        }
-
-        if (result.affectedRows === 0) {
-            return res.status(404).json({
-                success: false,
-                message: 'Livro não encontrado.'
-            });
-        }
-
-        res.json({
-            success: true,
-            message: 'Livro excluído com sucesso!'
-        });
+        if (err) return res.status(500).json({ success: false, message: err.message });
+        res.json({ success: true, message: 'Livro excluído com sucesso!' });
     });
 });
 
-// ==================== DASHBOARD BIBLIOTECÁRIO ====================
+// DASHBOARD
 router.get('/dashboard', (req, res) => {
     const queries = {
         totalLivros: 'SELECT COUNT(*) as total FROM livro',
         totalAlunos: 'SELECT COUNT(*) as total FROM aluno',
-        livrosDisponiveis: 'SELECT COUNT(*) as disponiveis FROM livro WHERE disponivel = true',
-        // Adicione mais estatísticas conforme necessário
+        livrosDisponiveis: 'SELECT COUNT(*) as disponiveis FROM livro WHERE disponivel = 1',
     };
 
-    // Executar todas as queries em paralelo
     Promise.all([
         db.promise().query(queries.totalLivros),
         db.promise().query(queries.totalAlunos),
@@ -166,10 +102,7 @@ router.get('/dashboard', (req, res) => {
             }
         });
     }).catch(err => {
-        res.status(500).json({
-            success: false,
-            message: 'Erro ao carregar dashboard'
-        });
+        res.status(500).json({ success: false, message: 'Erro dashboard: ' + err.message });
     });
 });
 
