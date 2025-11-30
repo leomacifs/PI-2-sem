@@ -1,38 +1,78 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Retirada</title>
-  <link rel="stylesheet" href="Retirada_Livro.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Retirada_Livro.css">
+    <title>Retirada de Livros - Totem</title>
 </head>
 <body>
 
- <header>
-  <a href="Página_Inicial_T.html" class="logo-link">
-    <img src="imagemlogo.png" alt="Logo PUC" class="header-logo">
-  </a>
-  
-  <div class="header-text">
-    <h1>Biblioteca Universitária</h1>
-    <h2>Autoatendimento</h2>
-  </div>
-</header>
-  <main class="container">
-    <div class="card">
-      <h2>Retirada de livro</h2>
-      
-    <form id="formRetirada">
-      <label>RA do Aluno:</label>
-      <input type="text" name="ra" placeholder="Digite o RA" required>
-      
-      <label>Código do Livro:</label>
-      <input type="text" name="codigo_livro" placeholder="Código de barras" required>
+    <header class="main-header">
+        <img src="imagemlogo.png" alt="Logo PUC Campinas" class="header-logo">
+        <div class="header-titles">
+            <h1>Biblioteca Universitária</h1>
+            <h2>Autoatendimento</h2>
+        </div>
+    </header>
 
-      <button type="submit" class="btn-primary">Confirmar Retirada</button>
-      <a href="Página_Inicial_T.html" class="btn">Voltar</a>
-  </form>
-  </main>
-  <script src="/backend/js/totem.js"></script>
+    <main>
+        <div class="card">
+            <h2>RETIRADA DE LIVRO</h2>
+            <p>Preencha os dados abaixo:</p>
+            
+            <form id="formRetirada">
+                <div class="input-group">
+                    <label for="ra">RA do Aluno:</label>
+                    <input type="text" id="ra" name="ra" placeholder="Ex: 2024001" required>
+                </div>
+
+                <div class="input-group" style="margin-top: 15px;">
+                    <label for="codigo_livro">Livro (Código ou Título):</label>
+                    <input type="text" id="codigo_livro" name="codigo_livro" placeholder="Ex: TEC001 ou Clean Code" required>
+                </div>
+
+                <button type="submit" class="btn-confirmar">CONFIRMAR RETIRADA</button>
+            </form>
+
+            <p id="mensagem-status" style="text-align:center; margin-top:15px; font-weight:bold; min-height:20px;"></p>
+
+            <a href="Página_Inicial_T.html" class="btn-voltar">Cancelar</a>
+        </div> 
+    </main>
+
+    <script>
+        document.getElementById('formRetirada').addEventListener('submit', async function(e) {
+            e.preventDefault(); 
+
+            const ra = document.getElementById('ra').value;
+            const codigo_livro = document.getElementById('codigo_livro').value;
+            const msgStatus = document.getElementById('mensagem-status');
+
+            msgStatus.innerText = "⏳ Processando...";
+            msgStatus.style.color = "blue";
+
+            try {
+                const response = await fetch('http://localhost:3001/api/totem/retirada', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ ra, codigo_livro })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    window.location.href = "Retirada_Confirmada.html";
+                } else {
+                    msgStatus.innerText = "Erro: " + data.message;
+                    msgStatus.style.color = "red";
+                }
+            } catch (error) {
+                console.error(error);
+                msgStatus.innerText = "Erro de conexão com o servidor.";
+                msgStatus.style.color = "red";
+            }
+        });
+    </script>
 </body>
 </html>

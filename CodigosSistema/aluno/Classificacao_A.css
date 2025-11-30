@@ -1,114 +1,131 @@
-
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-header {
-  background-color: #053054; 
-  color: rgb(255, 255, 255);
-  text-align: center;
-  padding: 20px;
+body {
+    background-color: #fffcf6e9;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.logo-link {
-  position: absolute;
-  left: 20px;
-  top: 50px;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-  height: 100%;
+.main-header {
+    background-color: #053054;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    padding: 0 40px;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .header-logo {
-  width: 150px;
-  height: auto;
-  border-radius: 4px;
-  transition: transform 0.3s, opacity 0.3s;
+    width: 150px;
+    height: auto;
+    border-radius: 4px;
 }
 
-
-body {
-  background-color: #fffcf6e9;
-}
-
-.content {
-    display: flex;
-    justify-content: center;
-    padding: 40px;
-}
-
-.report-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: #fffefde9;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
-    width: 80%;
-    max-width: 900px;
-}
-
-.report-section h2 {
+.header-titles {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
-    color: #053054;
-    margin-bottom: 40px;
+    color: white;
+    width: 100%;
+    pointer-events: none;
 }
 
-table {
+main {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.card {
+    background: white;
+    width: 100%;
+    max-width: 900px;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.welcome-box {
+    background-color: #e3f2fd;
+    border-left: 5px solid #053054;
+    padding: 20px;
+    margin-bottom: 30px;
+    border-radius: 4px;
+}
+
+.welcome-box h2 { color: #053054; margin-bottom: 5px; font-size: 1.4rem; }
+.welcome-box p { color: #555; margin: 3px 0; }
+
+.section-title {
+    color: #053054;
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+    margin-top: 10px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.custom-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 20px;
+    margin-top: 10px;
 }
 
-table thead {
-    background-color: var(--azul-claro);
-}
-
-table th, table td {
-    border: 1px solid #ddd;
-    padding: 10px;
+.custom-table th, .custom-table td {
+    padding: 12px 15px;
     text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
-table th {
-    color: var(--texto-escuro);
+.custom-table th {
+    background-color: #053054;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
 }
 
-.placeholder {
-    text-align: center;
-    color: #888;
-    padding: 20px;
+.custom-table tr:hover { background-color: #f9f9f9; }
+
+.meu-ranking {
+    background-color: #fff9c4 !important; 
+    border-left: 4px solid #fbc02d;
 }
 
-.stats-box {
-    background-color: #124e79;
-    padding: 15px;
-    border-radius: 6px;
-    color: black;
+.meu-ranking td {
+    font-weight: bold;
+    color: #333;
 }
 
-.btn {
-  display: block;
-  width: 100px;
-  padding: 10px;
-  background-color: #053054;
-  color: white;
-  text-decoration: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  text-align: center;
-  margin: 10px auto;
-  border: none;
-  transition: background-color 0.3s;
+.btn-voltar {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 10px 25px;
+    background-color: #444;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background 0.3s;
+    font-weight: bold;
 }
 
-.btn:hover {
-  background-color: #124e79;
+.btn-voltar:hover { background-color: #656565; }
+
+@media (max-width: 600px) {
+    .header-titles { position: static; transform: none; margin-top: 10px; }
+    .main-header { flex-direction: column; height: auto; padding: 20px; }
 }

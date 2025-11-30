@@ -38,12 +38,12 @@
                     <tbody id="tabela-ranking-body">
                         </tbody>
                 </table>
-                <p id="mensagem-tabela" style="text-align: center; margin-top: 10px;">Carregando dados...</p>
+                <p id="mensagem-tabela" style="text-align: center; margin-top: 15px; color: #666; font-style: italic;">⏳ Carregando dados...</p>
             </div>
 
             <div class="stats-box">
                 <h4>Estatísticas Gerais</h4>
-                <p><strong>Total de alunos:</strong> <span id="stat-total-alunos">-</span></p>
+                <p><strong>Total de alunos leitores:</strong> <span id="stat-total-alunos">-</span></p>
                 <p><strong>Média de livros lidos:</strong> <span id="stat-media-livros">-</span></p>
                 <p><strong>Leitor com mais livros:</strong> <span id="stat-top-leitor">-</span></p>
             </div>
@@ -62,7 +62,7 @@
                             <th>Percentual</th>
                         </tr>
                     </thead>
-                    <tbody id="tabela-categorias-body">
+                    <tbody id="tabela-mapa-body">
                          </tbody>
                 </table>
             </div>
@@ -72,6 +72,139 @@
         </div> 
     </main>
     
-    <script src="/backend/js/bibliotecario.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Referências aos elementos da tela
+            const tabelaRanking = document.getElementById('tabela-ranking-body');
+            const tabelaMapa = document.getElementById('tabela-mapa-body');
+            const mensagemTabela = document.getElementById('mensagem-tabela');
+            
+            const elTotalAlunos = document.getElementById('stat-total-alunos');
+            const elMediaLivros = document.getElementById('stat-media-livros');
+            const elTopLeitor = document.getElementById('stat-top-leitor');
+
+            try {
+                // 1. Busca os dados do servidor
+                const response = await fetch('http://localhost:3001/api/bibliotecario/relatorio-classificacao');
+                const data = await response.json();
+
+                if (data.success) {
+                    mensagemTabela.style.display = 'none';
+                    const ranking = data.ranking;
+                    
+                    // --- VARIÁVEIS PARA CONTAGEM (MAPA) ---
+                    let countIniciante = 0; 
+                    let countRegular = 0;   
+                    let countAtivo = 0;    
+                    let countExtremo = 0;  
+
+                    // --- FUNÇÃO PARA DEFINIR O NÍVEL ---
+                    function getClassificacao(qtd) {
+                        if (qtd <= 5) return { nome: 'Leitor Iniciante', icone: '📖', tipo: 'iniciante' };
+                        if (qtd <= 10) return { nome: 'Leitor Regular', icone: '🥉', tipo: 'regular' };
+                        if (qtd <= 20) return { nome: 'Leitor Ativo', icone: '🥈', tipo: 'ativo' };
+                        return { nome: 'Leitor Extremo', icone: '🏆', tipo: 'extremo' };
+                    }
+
+                    // --- 1. PREENCHER TABELA DE RANKING (LISTA ALUNOS) ---
+                    tabelaRanking.innerHTML = '';
+
+                    if (ranking.length === 0) {
+                        tabelaRanking.innerHTML = '<tr><td colspan="5" style="text-align:center">Nenhum dado encontrado.</td></tr>';
+                    } else {
+                        let somaLivros = 0;
+
+                        ranking.forEach((aluno, index) => {
+                            const qtd = aluno.total_lidos;
+                            somaLivros += qtd;
+                            const infoClassificacao = getClassificacao(qtd);
+                            
+                            // Incrementa os contadores para a segunda tabela
+                            if (infoClassificacao.tipo === 'iniciante') countIniciante++;
+                            else if (infoClassificacao.tipo === 'regular') countRegular++;
+                            else if (infoClassificacao.tipo === 'ativo') countAtivo++;
+                            else if (infoClassificacao.tipo === 'extremo') countExtremo++;
+
+                            // Renderiza linha do aluno
+                            const posicao = index + 1;
+                            const styleBold = posicao <= 3 ? 'font-weight:bold;' : '';
+
+                            tabelaRanking.innerHTML += `
+                                <tr style="${posicao === 1 ? 'background-color:#fffde7' : ''}">
+                                    <td style="text-align:center; ${styleBold}">${posicao}º</td>
+                                    <td style="${styleBold}">${aluno.nome}</td>
+                                    <td>${aluno.ra}</td>
+                                    <td style="text-align:center; ${styleBold}">${qtd}</td>
+                                    <td>${infoClassificacao.icone} ${infoClassificacao.nome}</td>
+                                </tr>
+                            `;
+                        });
+
+                        // Preenche estatísticas do topo
+                        elTotalAlunos.innerText = ranking.length;
+                        elMediaLivros.innerText = (somaLivros / ranking.length).toFixed(1);
+                        elTopLeitor.innerText = ranking[0].total_lidos > 0 ? ranking[0].nome : '-';
+                    }
+                    
+                    const totalAlunos = ranking.length > 0 ? ranking.length : 1; 
+
+                    const mapaConfig = [
+                        { 
+                            nome: 'Leitor Iniciante', 
+                            desc: 'Até 5 livros lidos no semestre', 
+                            qtd: countIniciante, 
+                            cor: '#8bc34a' 
+                        },
+                        { 
+                            nome: 'Leitor Regular', 
+                            desc: '6 a 10 livros', 
+                            qtd: countRegular, 
+                            cor: '#ffc107' 
+                        },
+                        { 
+                            nome: 'Leitor Ativo', 
+                            desc: '11 a 20 livros', 
+                            qtd: countAtivo, 
+                            cor: '#2196f3' 
+                        },
+                        { 
+                            nome: 'Leitor Extremo', 
+                            desc: 'Mais de 20 livros', 
+                            qtd: countExtremo, 
+                            cor: '#f44336'
+                        }
+                    ];
+
+                    tabelaMapa.innerHTML = '';
+                    
+                    mapaConfig.forEach(item => {
+                        const percentual = ((item.qtd / totalAlunos) * 100).toFixed(1);
+                        
+                        tabelaMapa.innerHTML += `
+                            <tr>
+                                <td style="font-weight:bold;">${item.nome}</td>
+                                <td style="color:#555;">${item.desc}</td>
+                                <td style="text-align:center; font-weight:bold;">${item.qtd}</td>
+                                <td>
+                                    <div style="background:#f0f0f0; border-radius:4px; width:100%; height:20px; position:relative; overflow:hidden;">
+                                        <div style="background:${item.cor}; width:${percentual}%; height:100%; border-radius:4px;"></div>
+                                        <span style="position:absolute; top:0; left:10px; font-size:0.8em; line-height:20px; color:#333; text-shadow: 0 0 2px white;">${percentual}%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        `;
+                    });
+
+                } else {
+                    mensagemTabela.innerText = 'Erro no servidor: ' + data.message;
+                    mensagemTabela.style.color = 'red';
+                }
+            } catch (error) {
+                console.error(error);
+                mensagemTabela.innerText = 'Erro de conexão.';
+                mensagemTabela.style.color = 'red';
+            }
+        });
+    </script>
 </body>
 </html>

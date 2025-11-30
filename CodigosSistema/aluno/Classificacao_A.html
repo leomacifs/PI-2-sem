@@ -1,48 +1,144 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatórios de Classificação dos Leitores</title>
     <link rel="stylesheet" href="Classificacao_A.css">
+    <title>Minha Classificação - Biblioteca</title>
 </head>
 <body>
 
-    <header class="top-header">
-        <a href="BemVindo.html" class="logo-link">
-            <img src="imagemlogo.png" alt="Logo PUC" class="header-logo">
-        </a>
-        <h1>Biblioteca Universitária</h1>
-        <h2>Área do aluno</h2>
+    <header class="main-header">
+        <img src="imagemlogo.png" alt="Logo PUC" class="header-logo">
+        <div class="header-titles">
+            <h1>Biblioteca Universitária</h1>
+            <h2>Área do Aluno</h2>
+        </div>
     </header>
 
-    <main class="content">
-        <section class="report-section">
-            <h2>Relatórios de Classificação de Leitores</h2>
-
-            <!-- ------------------ -->
-            <table>
-                <thead>
-                    <tr>
-                        <th>Posição</th>
-                        <th>Aluno</th>
-                        <th>Identificador</th>
-                        <th>Livros lidos</th>
-                        <th>Classificação</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td colspan="5" class="placeholder">Dados de classificação não disponíveis.</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="button-container">
-                <button onclick="window.location.href='BemVindo.html'" class="btn">Voltar</button>
+    <main>
+        <div class="card">
+            
+            <div class="welcome-box">
+                <h2 id="aluno-nome">Olá, Aluno!</h2>
+                <p>Seu nível atual: <strong id="aluno-nivel" style="color:#d84315;">Carregando...</strong></p>
+                <p>Livros lidos neste semestre: <strong id="aluno-total">0</strong></p>
             </div>
-        </section>
+
+            <div class="section-title">Ranking Geral de Leitores</div>
+
+            <div class="table-container">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px; text-align: center;">Posição</th>
+                            <th>Aluno</th>
+                            <th>RA</th> <th style="text-align: center;">Livros Lidos</th>
+                            <th>Nível</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-ranking">
+                        </tbody>
+                </table>
+                <p id="msg-loading" style="text-align:center; padding:20px; color:#666;">⏳ Buscando dados...</p>
+            </div>
+
+            <a href="Página_Inicial_A.html" class="btn-voltar">Voltar</a>
+        </div>
     </main>
-<script src="/backend/js/aluno.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            // 1. Recupera dados do login
+            const alunoLogadoData = localStorage.getItem('alunoData');
+            
+            if (!alunoLogadoData) {
+                alert("Sessão expirada. Faça login novamente.");
+                window.location.href = "Login.html";
+                return;
+            }
+
+            const alunoLogado = JSON.parse(alunoLogadoData);
+            
+            // Preenche o nome no topo
+            document.getElementById('aluno-nome').innerText = `Olá, ${alunoLogado.nome.split(' ')[0]}!`;
+
+            const tabela = document.getElementById('tabela-ranking');
+            const msgLoading = document.getElementById('msg-loading');
+            const elNivel = document.getElementById('aluno-nivel');
+            const elTotal = document.getElementById('aluno-total');
+
+            // Regra de Níveis (Igual ao Bibliotecário)
+            function getNivel(qtd) {
+                if (qtd <= 5) return { nome: 'Leitor Iniciante', icone: '📖' };
+                if (qtd <= 10) return { nome: 'Leitor Regular', icone: '🥉' };
+                if (qtd <= 20) return { nome: 'Leitor Ativo', icone: '🥈' };
+                return { nome: 'Leitor Extremo', icone: '🏆' };
+            }
+
+            try {
+                // 2. Busca o ranking do servidor
+                const response = await fetch('http://localhost:3001/api/bibliotecario/relatorio-classificacao');
+                const data = await response.json();
+
+                if (data.success) {
+                    msgLoading.style.display = 'none';
+                    tabela.innerHTML = '';
+
+                    const ranking = data.ranking;
+                    let encontreiVoce = false;
+
+                    if (ranking.length === 0) {
+                        msgLoading.style.display = 'block';
+                        msgLoading.innerText = 'Nenhum dado disponível.';
+                        return;
+                    }
+
+                    // 3. Preenche a tabela
+                    ranking.forEach((aluno, index) => {
+                        const posicao = index + 1;
+                        const nivelInfo = getNivel(aluno.total_lidos);
+                        
+                        // Verifica se é você (pelo RA)
+                        const isMe = String(aluno.ra) === String(alunoLogado.ra);
+
+                        if (isMe) {
+                            encontreiVoce = true;
+                            // Atualiza os dados do topo da página com o valor real
+                            elNivel.innerText = `${nivelInfo.icone} ${nivelInfo.nome}`;
+                            elTotal.innerText = aluno.total_lidos;
+                        }
+
+                        // Lógica de Segurança do RA:
+                        // Se for EU, mostra o RA. Se for OUTRO, mostra "******"
+                        const displayRA = isMe ? aluno.ra : '******';
+
+                        // Monta a linha
+                        const row = `
+                            <tr class="${isMe ? 'meu-ranking' : ''}">
+                                <td style="text-align: center; font-weight: bold;">${posicao}º</td>
+                                <td>${aluno.nome} ${isMe ? '(Você)' : ''}</td>
+                                <td style="font-family: monospace;">${displayRA}</td>
+                                <td style="text-align: center;">${aluno.total_lidos}</td>
+                                <td>${nivelInfo.icone} ${nivelInfo.nome}</td>
+                            </tr>
+                        `;
+                        tabela.innerHTML += row;
+                    });
+
+                    if (!encontreiVoce) {
+                        elNivel.innerText = "Leitor Iniciante";
+                        elTotal.innerText = "0";
+                    }
+
+                } else {
+                    msgLoading.innerText = 'Erro ao carregar dados.';
+                }
+            } catch (error) {
+                console.error(error);
+                msgLoading.innerText = 'Erro de conexão com o servidor.';
+            }
+        });
+    </script>
 </body>
 </html>

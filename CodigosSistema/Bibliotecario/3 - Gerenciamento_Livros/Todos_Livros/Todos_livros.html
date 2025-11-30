@@ -4,37 +4,122 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Todos_livrosc.css">
-    <title>Todos os Livros - Biblioteca Universitária</title>
+    <title>Todos os Livros</title>
+    
+    <style>
+        .summary-bar {
+            background-color: #004a8d; 
+            color: white;
+            padding: 15px;
+            margin-top: 15px; 
+            margin-bottom: 25px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .summary-item {
+            font-size: 1.1rem;
+        }
+        .summary-item strong {
+            font-size: 1.3rem;
+            margin-left: 5px;
+        }
+    </style>
 </head>
 <body>
-
     <header class="main-header">
         <img src="imagemlogo.png" alt="Logo PUC Campinas" class="header-logo">
         <div class="header-titles">
             <h1>Biblioteca Universitária</h1>
-            <h2>Área do bibliotecário</h2>
+            <h2>Gerenciamento de Livros</h2>
         </div>
     </header>
 
     <main>
         <div class="card">
-            <h3>Todos os livros</h3>
-            <section class="tab-content">
-                
-                <div class="book-summary-box">
-                    <p><strong>Status do Acervo</strong></p>
+            <h3>Todos os Livros</h3>
+            
+            <div class="summary-bar" id="barraResumo" style="display:none;">
+                <div class="summary-item">
+                    📚 Disponíveis: <strong id="qtd-disponiveis">0</strong>
                 </div>
-
-                <div id="lista-livros" class="book-accordion-list">
-                    <p style="text-align:center">Carregando livros...</p>
+                <div style="border-left: 1px solid rgba(255,255,255,0.3); height: 30px;"></div>
+                <div class="summary-item">
+                    📕 Emprestados: <strong id="qtd-emprestados">0</strong>
                 </div>
+            </div>
 
-                <a href="../../3 - Gerenciamento_Livros/Gerenciamento_Livros.html" class="voltar">Voltar</a>
-                
-            </section>
+            <div class="book-list" id="listaLivros">
+                <p style="text-align:center">Carregando livros...</p>
+            </div>
+
+            <a href="../Gerenciamento_Livros.html" class="voltar">Voltar</a>
         </div> 
     </main>
 
-    <script src="/backend/js/bibliotecario.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async function() {
+            const listaLivros = document.getElementById('listaLivros');
+            const barraResumo = document.getElementById('barraResumo');
+            const elDisponiveis = document.getElementById('qtd-disponiveis');
+            const elEmprestados = document.getElementById('qtd-emprestados');
+
+            try {
+                const response = await fetch('http://localhost:3001/api/bibliotecario/livros');
+                const data = await response.json();
+
+                if (data.success) {
+                    listaLivros.innerHTML = ''; 
+                    
+                    if (data.livros.length === 0) {
+                        listaLivros.innerHTML = '<p>Nenhum livro cadastrado.</p>';
+                        return;
+                    }
+
+                    // Variáveis para contagem
+                    let totalDisponiveis = 0;
+                    let totalEmprestados = 0;
+
+                    data.livros.forEach(livro => {
+                        // Lógica de Contagem
+                        if (livro.disponivel) {
+                            totalDisponiveis++;
+                        } else {
+                            totalEmprestados++;
+                        }
+
+                        const statusClass = livro.disponivel ? 'status-disponivel' : 'status-indisponivel';
+                        const statusTexto = livro.disponivel ? 'Disponível' : 'Emprestado';
+                        const corStatus = livro.disponivel ? 'green' : 'red';
+
+                        const item = `
+                            <div class="book-item" style="border-bottom:1px solid #ccc; padding:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+                                <div class="book-info">
+                                    <h4 style="margin:0 0 5px 0;">${livro.titulo}</h4>
+                                    <p style="margin:0; color:#555;">Autor: ${livro.autor}</p>
+                                    <p style="margin:0; font-size:0.9em; color:#888;">Código: <strong>${livro.codigo}</strong></p>
+                                </div>
+                                <div class="book-status ${statusClass}" style="font-weight:bold; color: ${corStatus}">
+                                    ${statusTexto}
+                                </div>
+                            </div>
+                        `;
+                        listaLivros.innerHTML += item;
+                    });
+
+                    // Atualiza os números na barra e mostra ela
+                    elDisponiveis.innerText = totalDisponiveis;
+                    elEmprestados.innerText = totalEmprestados;
+                    barraResumo.style.display = 'flex';
+                }
+            } catch (error) {
+                console.error(error);
+                listaLivros.innerHTML = '<p style="color:red">Erro ao carregar livros.</p>';
+            }
+        });
+    </script>
 </body>
 </html>

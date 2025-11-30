@@ -3,40 +3,83 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Devolução</title>
+  <title>Devolução de Livros - Totem</title>
   <link rel="stylesheet" href="Devolucao_Livro.css">
 </head>
 <body>
 
- <header>
-  <a href="Página_Inicial_T.html" class="logo-link">
-    <img src="imagemlogo.png" alt="Logo PUC" class="header-logo">
-  </a>
-  
-  <div class="header-text">
+ <header class="main-header">
+  <img src="imagemlogo.png" alt="Logo PUC Campinas" class="header-logo">
+  <div class="header-titles">
     <h1>Biblioteca Universitária</h1>
     <h2>Autoatendimento</h2>
   </div>
 </header>
 
-  <main class="container">
+  <main>
     <div class="card">
-      <h2>Devolução de livro</h2>
+      <h2>DEVOLUÇÃO DE LIVRO</h2>
+      <p>Preencha os dados abaixo:</p>
       
       <form id="formDevolucao">
         
-        <p>Insira seu RA:</p>
-        <input type="text" name="ra" placeholder="Digite seu RA" required>
+        <div class="input-group">
+            <label for="ra">RA do Aluno:</label>
+            <input type="text" id="ra" name="ra" placeholder="Digite seu RA">
+        </div>
 
-        <p>Insira o livro a ser devolvido:</p>
-        <input type="text" name="codigo_livro" placeholder="Código/Nome do livro" required>
+        <div class="input-group" style="margin-top: 15px;">
+            <label for="codigo_livro">Livro (Código ou Título):</label>
+            <input type="text" id="codigo_livro" name="codigo_livro" placeholder="Digite o Código ou Título" required>
+        </div>
 
-        <button type="submit" class="btn-primary">Confirmar Devolução</button>
-        <a href="Página_Inicial_T.html" class="btn">Voltar</a>
+        <button type="submit" class="btn-confirmar">CONFIRMAR DEVOLUÇÃO</button>
       </form>
+
+      <p id="mensagem-status" style="text-align:center; margin-top:15px; font-weight:bold; min-height:20px;"></p>
+
+      <a href="Página_Inicial_T.html" class="btn-voltar">Cancelar</a>
     </div>
   </main>
   
-  <script src="/backend/js/totem.js"></script>
+  <script>
+    document.getElementById('formDevolucao').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const inputLivro = document.getElementById('codigo_livro');
+        const codigo_livro = inputLivro ? inputLivro.value : '';
+        const msgStatus = document.getElementById('mensagem-status');
+
+        if (!codigo_livro) {
+            msgStatus.innerText = "Por favor, digite o livro.";
+            msgStatus.style.color = "red";
+            return;
+        }
+
+        msgStatus.innerText = "⏳ Processando devolução...";
+        msgStatus.style.color = "blue";
+
+        try {
+            const response = await fetch('http://localhost:3001/api/totem/devolucao', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ codigo_livro })
+            });
+
+            const data = await response.json();
+
+            if (data.success) {
+                window.location.href = "Devolucao_Confirmada.html";
+            } else {
+                msgStatus.innerText = "Erro: " + data.message;
+                msgStatus.style.color = "red";
+            }
+        } catch (error) {
+            console.error("Erro:", error);
+            msgStatus.innerText = "Erro de conexão com o servidor.";
+            msgStatus.style.color = "red";
+        }
+    });
+  </script>
 </body>
 </html>

@@ -1,136 +1,171 @@
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
   background-color: #fffcf6e9;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-header {
+.main-header {
   background-color: #053054; 
-  color: rgb(255, 255, 255);
-  text-align: center;
-  padding: 20px;
-}
-
-.logo-link {
-  position: absolute;
-  left: 20px;
-  top: 50px;
-  transform: translateY(-50%);
+  height: 100px;
   display: flex;
   align-items: center;
-  height: 100%;
+  padding: 0 40px;
+  position: relative;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .header-logo {
   width: 150px;
   height: auto;
   border-radius: 4px;
-  transition: transform 0.3s, opacity 0.3s;
 }
 
-
-.topo {
-  background-color: #053054;
-  color: white;
+.header-titles {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
   text-align: center;
-  padding: 20px;
+  color: white;
+  width: 100%;
+  pointer-events: none;
 }
 
-.topo h1 {
-  margin-bottom: 10px;
-  font-size: 22px;
+.header-titles h1 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 0;
 }
 
-.topo .logo {
-  width: 80px;
-  display: block;
-  margin: 0 auto;
+.header-titles h2 {
+  font-size: 1.2rem;
+  font-weight: normal;
+  opacity: 0.9;
+  margin: 0;
 }
 
-.container {
+main {
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 70vh;
+  padding: 20px;
 }
 
 .card {
-  background: #fffefde9;
-  padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  background: #ffffff;
+  width: 100%;
+  max-width: 500px;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
   text-align: center;
-  width: 600px;
 }
 
 .card h2 {
-  color: #003366;
+  color: #053054;
   margin-bottom: 10px;
+  text-transform: uppercase;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #053054;
+  display: inline-block;
+  padding-bottom: 5px;
 }
 
 .card p {
+  margin-bottom: 25px;
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.input-group {
+  text-align: left;
   margin-bottom: 15px;
-  font-size: 14px;
+}
+
+label {
   color: #333;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
 }
 
 input[type="text"] {
-    width: 80%;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-    outline: none;
-    margin-bottom: 10px;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s, box-shadow 0.3s;
+  background-color: #f9f9f9;
 }
 
 input[type="text"]:focus {
-    border-color: #053054; 
-    box-shadow: 0 0 5px rgba(5, 48, 84, 0.3);
+  border-color: #053054;
+  box-shadow: 0 0 5px rgba(5, 48, 84, 0.2);
+  background-color: #fff;
 }
 
-.btn-primary {
+.btn-confirmar {
   display: block;
-  width: 70%;
-  padding: 10px;
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;     
+  margin-bottom: 5px;    
   background-color: #053054;
   color: white;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 5px;
   font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  text-align: center;
-  margin: 10px auto;
   border: none;
   transition: background-color 0.3s;
 }
 
-.btn-primary:hover {
+.btn-confirmar:hover {
   background-color: #124e79;
 }
 
-.btn {
+.btn-voltar {
   display: block;
-  width: 70%;
-  padding: 10px;
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;      
   background-color: #444;
   color: white;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 5px;
   font-size: 16px;
+  font-weight: normal;
   cursor: pointer;
   text-align: center;
-  margin: 10px auto;
   border: none;
   transition: background-color 0.3s;
 }
 
-.btn:hover {
+.btn-voltar:hover {
   background-color: #656565;
+}
+
+@media (max-width: 600px) {
+  .header-titles {
+      position: static;
+      transform: none;
+      margin-top: 10px;
+  }
+  .main-header {
+      flex-direction: column;
+      height: auto;
+      padding: 20px;
+  }
 }

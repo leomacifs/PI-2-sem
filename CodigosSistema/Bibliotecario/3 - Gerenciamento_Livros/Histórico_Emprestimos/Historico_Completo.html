@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="Historico_Completocs.css">
+    <link rel="stylesheet" href="Historico_Completocs.css"> 
     <title>Histórico Completo - Biblioteca Universitária</title>
 </head>
 <body>
@@ -19,10 +19,10 @@
     <main>
         <div class="card">
             
-            <h3>Histórico de Empréstimos e Devoluções (Últimos 6 Meses)</h3>
+            <h3>Histórico de Empréstimos e Devoluções</h3>
             
             <div class="history-list" id="listaHistorico">
-                <p style="text-align:center; padding: 20px;">Carregando histórico...</p>
+                <p style="text-align:center; padding: 20px; color: #666;">⏳ Contatando o servidor...</p>
             </div>
 
            <a href="../../3 - Gerenciamento_Livros/Gerenciamento_Livros.html" class="voltar">Voltar</a>
@@ -30,6 +30,64 @@
         </div> 
     </main>
     
-    <script src="/backend/js/bibliotecario.js"></script>
+    <script>
+        console.log("--> Script do Histórico Iniciado!");
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const listaHistorico = document.getElementById('listaHistorico');
+            
+            try {
+                console.log("--> Tentando buscar dados...");
+                const response = await fetch('http://localhost:3001/api/bibliotecario/historico-completo');
+                console.log("--> Resposta do servidor:", response.status);
+
+                const data = await response.json();
+                console.log("--> Dados recebidos:", data);
+
+                if (data.success) {
+                    listaHistorico.innerHTML = ''; 
+
+                    if (data.historico.length === 0) {
+                        listaHistorico.innerHTML = '<p style="text-align:center; padding:20px;">Nenhum registro encontrado no banco de dados.</p>';
+                        return;
+                    }
+
+                    // Monta a lista na tela
+                    data.historico.forEach(item => {
+                        // Formata data
+                        const dataFormatada = new Date(item.data_evento).toLocaleString('pt-BR');
+                        // Define cor (Emprestimo=azul/verde, Devolucao=vermelho/laranja)
+                        const classeBadge = item.tipo === 'Empréstimo' ? 'loan' : 'return';
+                        
+                        const styleBadge = item.tipo === 'Empréstimo' 
+                            ? 'background-color: #e3f2fd; color: #1565c0; padding: 5px 10px; border-radius: 15px; font-size: 0.85em; font-weight: bold;' 
+                            : 'background-color: #fff3e0; color: #e65100; padding: 5px 10px; border-radius: 15px; font-size: 0.85em; font-weight: bold;';
+
+                        const itemHtml = `
+                            <div class="history-item" style="display: flex; justify-content: space-between; align-items: center; padding: 15px; border-bottom: 1px solid #eee;">
+                                <div class="history-info">
+                                    <p style="margin: 5px 0;"><strong>${item.tipo}:</strong> ${item.titulo}</p>
+                                    <p style="margin: 5px 0; color: #555;"><strong>Aluno:</strong> ${item.nome} (RA: ${item.ra})</p>
+                                    <p style="margin: 5px 0; font-size: 0.9em; color: #888;">📅 ${dataFormatada}</p>
+                                </div>
+                                <div class="history-badge" style="${styleBadge}">${item.tipo}</div>
+                            </div>
+                        `;
+                        listaHistorico.innerHTML += itemHtml;
+                    });
+                } else {
+                    listaHistorico.innerHTML = `<p style="color:red; text-align:center;">Erro do sistema: ${data.message}</p>`;
+                }
+            } catch (error) {
+                console.error('Erro fatal:', error);
+                listaHistorico.innerHTML = `
+                    <p style="color:red; text-align:center; padding: 20px;">
+                        <strong>Erro de Conexão!</strong><br>
+                        O servidor não respondeu.<br>
+                        <small>Detalhe: ${error.message}</small>
+                    </p>`;
+            }
+        });
+    </script>
 </body>
 </html>
