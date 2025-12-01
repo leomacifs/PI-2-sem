@@ -4,11 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('formLogin'); 
     const form = document.querySelector('form');
 
-    // Lógica de LOGIN 
+    // ==================== Lógica de LOGIN ====================
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault(); 
-            const ra = loginForm.querySelector('input[name="ra"]').value;
+            const raInput = loginForm.querySelector('input[name="ra"]');
+            const ra = raInput.value;
 
             try {
                 const response = await fetch(`${API_URL}/login`, {
@@ -16,21 +17,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ ra })
                 });
+                
                 const data = await response.json();
 
                 if (data.success) {
+                    // Salva os dados do aluno
                     localStorage.setItem('alunoData', JSON.stringify(data.aluno));
-                    window.location.href = 'Classificacao_A.html';
+                    window.location.href = 'BemVindo.html'; 
                 } else {
-                    alert(data.message);
+                    alert(data.message || 'RA não encontrado');
                 }
             } catch (error) {
-                console.error(error);
-                alert('Erro de conexão');
+                console.error('Erro no Login:', error);
+                alert('Erro de conexão com o servidor.');
             }
         });
     }
-    // Lógica de CADASTRO 
+
+    // ==================== Lógica de CADASTRO ====================
     if (form && window.location.href.includes('Cadastrar.html')) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -52,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert('Erro: ' + (result.message || 'Erro desconhecido'));
                 }
             } catch (error) {
-                console.error('Erro:', error);
+                console.error('Erro no Cadastro:', error);
                 alert('Erro de conexão ao cadastrar.');
             }
         });
