@@ -88,7 +88,7 @@ app.get('/api/bibliotecario/livros', (req, res) => {
     });
 });
 
-// 5. Relatório Classificação (Mantido com Ranking + Categorias para o gráfico funcionar)
+// 5. Relatório Classificação 
 app.get('/api/bibliotecario/relatorio-classificacao', (req, res) => {
     // Query 1: Ranking dos Alunos
     const sqlRanking = `
@@ -99,7 +99,7 @@ app.get('/api/bibliotecario/relatorio-classificacao', (req, res) => {
         ORDER BY total_lidos DESC
     `;
 
-    // Query 2: Contagem por Categoria (Necessário para a segunda tabela)
+    // Query 2: Contagem por Categoria
     const sqlCategorias = `
         SELECT l.categoria, COUNT(e.id) as quantidade
         FROM emprestimos e
@@ -134,15 +134,29 @@ app.post('/api/aluno/login', (req, res) => {
     });
 });
 
+// Rota de Cadastro de Aluno 
 app.post('/api/aluno/cadastrar', (req, res) => {
+    console.log('--> Recebido pedido de cadastro:', req.body); 
+
     const { ra, nome, email, telefone } = req.body;
+
+    // Validação básica
+    if (!ra || !nome || !email || !telefone) {
+        console.log('--> Falha: Campos em falta');
+        return res.status(400).json({ success: false, message: 'Preencha todos os campos!' });
+    }
+
     const sql = 'INSERT INTO alunos (ra, nome, email, telefone, pontuacao) VALUES (?, ?, ?, ?, 0)';
-    db.query(sql, [ra, nome, email, telefone], (err) => {
-        if (err) return res.status(500).json({ success: false, message: err.message });
+    
+    db.query(sql, [ra, nome, email, telefone], (err, result) => {
+        if (err) {
+            console.error('--> Erro MySQL:', err.message);
+            return res.status(500).json({ success: false, message: 'Erro no banco: ' + err.message });
+        }
+        console.log('--> Aluno cadastrado com sucesso! ID:', result.insertId);
         res.status(200).json({ success: true });
     });
 });
-
 // ==================== ROTAS TOTEM ====================
 
 // RETIRADA
