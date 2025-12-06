@@ -68,7 +68,8 @@
             const elEmprestados = document.getElementById('qtd-emprestados');
 
             try {
-                const response = await fetch('http://localhost:3001/api/bibliotecario/livros');
+                // Chama a API criada no server.js
+                const response = await fetch('/api/bibliotecario/livros');
                 const data = await response.json();
 
                 if (data.success) {
@@ -79,7 +80,7 @@
                         return;
                     }
 
-                    // Variáveis para contagem
+                    // Variáveis para recriar a contagem da barra de resumo
                     let totalDisponiveis = 0;
                     let totalEmprestados = 0;
 
@@ -91,7 +92,7 @@
                             totalEmprestados++;
                         }
 
-                        const statusClass = livro.disponivel ? 'status-disponivel' : 'status-indisponivel';
+                        // Define estilos baseado no status
                         const statusTexto = livro.disponivel ? 'Disponível' : 'Emprestado';
                         const corStatus = livro.disponivel ? 'green' : 'red';
 
@@ -102,7 +103,7 @@
                                     <p style="margin:0; color:#555;">Autor: ${livro.autor}</p>
                                     <p style="margin:0; font-size:0.9em; color:#888;">Código: <strong>${livro.codigo}</strong></p>
                                 </div>
-                                <div class="book-status ${statusClass}" style="font-weight:bold; color: ${corStatus}">
+                                <div class="book-status" style="font-weight:bold; color: ${corStatus}">
                                     ${statusTexto}
                                 </div>
                             </div>

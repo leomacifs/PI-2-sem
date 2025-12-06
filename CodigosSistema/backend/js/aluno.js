@@ -1,17 +1,15 @@
 const API_URL = '/api/aluno'; 
 
 document.addEventListener('DOMContentLoaded', function() {
+    // --- LÓGICA DE LOGIN ---
     const loginForm = document.getElementById('formLogin'); 
-    const form = document.querySelector('form');
-
-    // --- LOGIN ---
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault(); 
-            const raInput = loginForm.querySelector('input[name="ra"]');
-            const ra = raInput.value;
+            const ra = loginForm.querySelector('input[name="ra"]').value;
 
             try {
+                // Envia requisição para o servidor
                 const response = await fetch(`${API_URL}/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -21,24 +19,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 const data = await response.json();
 
                 if (data.success) {
+                    // Salva dados do aluno no navegador (LocalStorage)
                     localStorage.setItem('alunoData', JSON.stringify(data.aluno));
-                    window.location.href = 'BemVindo.html'; 
+                    window.location.href = 'BemVindo.html'; // Redireciona
                 } else {
-                    alert(data.message || 'RA não encontrado');
+                    alert(data.message);
                 }
             } catch (error) {
-                console.error('Erro no Login:', error);
-                alert('Erro de conexão com o servidor.');
+                console.error(error);
+                alert('Erro de conexão.');
             }
         });
     }
 
-    // --- CADASTRO ALUNO ---
-    if (form && window.location.href.includes('Cadastrar.html')) {
-        form.addEventListener('submit', async (e) => {
+    // --- LÓGICA DE CADASTRO ---
+    const cadastroForm = document.querySelector('form');
+    // Verifica se estamos na página de cadastro
+    if (cadastroForm && window.location.href.includes('Cadastrar.html')) {
+        cadastroForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            const formData = new FormData(form);
+            const formData = new FormData(cadastroForm);
             const data = Object.fromEntries(formData.entries());
             
             try {
@@ -52,11 +52,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (result.success) {
                     window.location.href = "Cadastro_Aluno_Confirmado.html";
                 } else {
-                    alert('Erro: ' + (result.message || 'Erro desconhecido'));
+                    alert('Erro: ' + result.message);
                 }
             } catch (error) {
-                console.error('Erro no Cadastro:', error);
-                alert('Erro de conexão ao cadastrar.');
+                alert('Erro de conexão.');
             }
         });
     }

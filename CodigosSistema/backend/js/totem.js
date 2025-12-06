@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (formRetirada) {
         formRetirada.addEventListener('submit', async (e) => {
             e.preventDefault(); 
-
+            // Pega os dados do formulário automaticamente
             const formData = new FormData(formRetirada);
             const data = Object.fromEntries(formData.entries());
 
@@ -26,7 +26,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert('Erro: ' + result.message);
                 }
             } catch (error) {
-                console.error('Erro:', error);
                 alert('Erro de conexão com o servidor.');
             }
         });
@@ -37,7 +36,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (formDevolucao) {
         formDevolucao.addEventListener('submit', async (e) => {
             e.preventDefault();
-
             const formData = new FormData(formDevolucao);
             const data = Object.fromEntries(formData.entries()); 
 
@@ -56,7 +54,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     alert('Erro: ' + result.message);
                 }
             } catch (error) {
-                console.error('Erro:', error);
                 alert('Erro de conexão com o servidor.');
             }
         });

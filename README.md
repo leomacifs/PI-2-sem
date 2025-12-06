@@ -12,7 +12,8 @@ Viviane Costa - 25897398
 
 Github Link:
 
-https://github.com/leomacifs/PI-2-sem.git (branch vivi)
+https://github.com/leomacifs/PI-2-sem.git (branch Viv)
+
 
 LINK PARA O FIGMA:
 

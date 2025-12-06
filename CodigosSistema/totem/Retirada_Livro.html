@@ -41,38 +41,6 @@
         </div> 
     </main>
 
-    <script>
-        document.getElementById('formRetirada').addEventListener('submit', async function(e) {
-            e.preventDefault(); 
-
-            const ra = document.getElementById('ra').value;
-            const codigo_livro = document.getElementById('codigo_livro').value;
-            const msgStatus = document.getElementById('mensagem-status');
-
-            msgStatus.innerText = "⏳ Processando...";
-            msgStatus.style.color = "blue";
-
-            try {
-                const response = await fetch('http://localhost:3001/api/totem/retirada', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ ra, codigo_livro })
-                });
-
-                const data = await response.json();
-
-                if (data.success) {
-                    window.location.href = "Retirada_Confirmada.html";
-                } else {
-                    msgStatus.innerText = "Erro: " + data.message;
-                    msgStatus.style.color = "red";
-                }
-            } catch (error) {
-                console.error(error);
-                msgStatus.innerText = "Erro de conexão com o servidor.";
-                msgStatus.style.color = "red";
-            }
-        });
-    </script>
+    <script src="/backend/js/totem.js"></script>
 </body>
 </html>
